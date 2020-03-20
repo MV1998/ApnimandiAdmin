@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.MainActivity"
+    android:id="@+id/MainActivityRootView">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/mainActivityToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?actionBarSize"
+        app:title="@string/admin"
+        app:titleTextColor="@color/black"></androidx.appcompat.widget.Toolbar>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical"
+       android:layout_below="@id/mainActivityToolbar"
+       android:padding="@dimen/_10sdp"
+       android:background="#e0e0e0">
+
+       <androidx.cardview.widget.CardView
+           android:id="@+id/MainActivityUserCardView"
+           xmlns:android="http://schemas.android.com/apk/res/android"
+           xmlns:card_view="http://schemas.android.com/apk/res-auto"
+           android:foreground="?android:attr/selectableItemBackground"
+           android:background="#e0e0e0"
+           android:clickable="true"
+           android:layout_width="match_parent"
+           android:layout_height="@dimen/_100sdp"
+           android:focusable="true"
+           card_view:cardCornerRadius="1dp"
+           card_view:cardUseCompatPadding="true"
+           app:cardElevation="@dimen/_1sdp">
+
+           <TextView
+               android:id="@+id/MainActivityUserTextView"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/user"
+               android:textColor="@color/black"
+               android:textSize="@dimen/_24sdp"
+               android:layout_gravity="center"
+               android:textStyle="bold"></TextView>
+
+       </androidx.cardview.widget.CardView>
+
+       <androidx.cardview.widget.CardView
+           android:id="@+id/MainActivityProductCategoryCardView"
+           xmlns:android="http://schemas.android.com/apk/res/android"
+           xmlns:card_view="http://schemas.android.com/apk/res-auto"
+           android:foreground="?android:attr/selectableItemBackground"
+           android:layout_width="match_parent"
+           android:layout_height="@dimen/_100sdp"
+           android:clickable="true"
+           android:focusable="true"
+           card_view:cardCornerRadius="1dp"
+           card_view:cardElevation="1dp"
+           card_view:cardUseCompatPadding="true"
+           android:layout_marginTop="@dimen/_10sdp">
+
+           <TextView
+               android:id="@+id/MainActivityProductCategoryTextView"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/product_category"
+               android:textColor="@color/black"
+               android:textSize="@dimen/_24sdp"
+               android:layout_gravity="center"
+               android:textStyle="bold"></TextView>
+
+       </androidx.cardview.widget.CardView>
+
+       <androidx.cardview.widget.CardView
+           android:id="@+id/MainActivityOrderCardView"
+           xmlns:android="http://schemas.android.com/apk/res/android"
+           xmlns:card_view="http://schemas.android.com/apk/res-auto"
+           android:foreground="?android:attr/selectableItemBackground"
+           android:layout_width="match_parent"
+           android:layout_height="@dimen/_100sdp"
+           android:clickable="true"
+           android:focusable="true"
+           card_view:cardCornerRadius="1dp"
+           card_view:cardElevation="1dp"
+           card_view:cardUseCompatPadding="true"
+           android:layout_marginTop="@dimen/_10sdp">
+
+           <TextView
+               android:id="@+id/MainActivityOrderTextView"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/orders"
+               android:textColor="@color/black"
+               android:textSize="@dimen/_24sdp"
+               android:layout_gravity="center"
+               android:textStyle="bold"></TextView>
+
+       </androidx.cardview.widget.CardView>
+
+   </LinearLayout>
+
+</RelativeLayout>

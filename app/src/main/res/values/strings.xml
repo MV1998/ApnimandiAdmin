@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">ApnimandiAdmin</string>
+    <string name="user">Users</string>
+    <string name="product_category">Product Category</string>
+    <string name="orders">Orders</string>
+    <string name="admin">Admin</string>
+    <string name="add">Add</string>
+    <string name="items">Items</string>
+    <string name="fruits">Fruits</string>
+    <string name="select_picture">Select Picture</string>
+    <string name="vegetables">Vegetables</string>
+    <string name="please_check_internet_connectivity">Please check your internet connectivity.</string>
+    <string name="snackbar_ok_message">OK</string>
+    <string name="No_item_added_yet">No Item added yet.</string>
+    <string name="all_fields_are_mandetory">All fields are mandetory.</string>
+    <string name="please_select_image">Please select image.</string>
+    <string name="delete_button_txt">Delete</string>
+    <string name="item_id_not_found">Deleting failed. Item id not found.</string>
+    <string name="item_deleted_successfully">Item is deleted successfully</string>
+    <string name="update">Update</string>
+</resources>

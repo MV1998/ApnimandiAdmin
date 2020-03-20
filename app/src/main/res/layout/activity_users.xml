@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.UsersActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/usersActivityToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?actionBarSize"
+        app:title="@string/user"
+        app:titleTextColor="@color/white"
+        android:background="@color/colorPrimary"></androidx.appcompat.widget.Toolbar>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@id/usersActivityToolbar"></LinearLayout>
+
+</RelativeLayout>
