@@ -34,16 +34,16 @@ import static com.mohit.varma.apnimandiadmin.utilities.Constant.IMAGE_MIME_TYPE;
 import static com.mohit.varma.apnimandiadmin.utilities.Constant.ITEMS;
 import static com.mohit.varma.apnimandiadmin.utilities.Constant.ITEM_KEY;
 
-public class AddFruitActivity extends AppCompatActivity {
+public class AddVegetableActivity extends AppCompatActivity {
     public static final String TAG = AddFruitActivity.class.getSimpleName();
     private static final int RESULT_LOAD_IMAGE = 100;
 
-    private Button AddFruitsActivityItemAddButton;
-    private ImageView AddFruitsActivityItemImageView;
-    private EditText AddFruitsActivityItemIdEditText, AddFruitsActivityItemCutOffPriceEditText,
-            AddFruitsActivityItemPriceEditText, AddFruitsActivityItemNameEditText,
-            AddFruitsActivityItemWeightEditText, AddFruitsActivityItemCategoryEditText;
-    private View AddFruitActivityRootView;
+    private Button AddVegetableActivityItemAddButton;
+    private ImageView AddVegetableActivityItemImageView;
+    private EditText AddVegetableActivityItemIdEditText, AddVegetableActivityItemCutOffPriceEditText,
+            AddVegetableActivityItemPriceEditText, AddVegetableActivityItemNameEditText,
+            AddVegetableActivityItemWeightEditText, AddVegetableActivityItemCategoryEditText;
+    private View AddVegetableActivityRootView;
 
     private String imageString, itemId, itemCutOffPrice, itemPrice, itemName, itemWeight, itemCategory;
     private Context activity;
@@ -56,27 +56,28 @@ public class AddFruitActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_fruit);
+        setContentView(R.layout.activity_add_vegetable);
 
         initViews();
 
         if (getIntent().getStringExtra(ITEM_KEY) != null) {
             if (!getIntent().getStringExtra(ITEM_KEY).isEmpty()) {
                 category = getIntent().getStringExtra(ITEM_KEY);
+                Log.d(TAG, "onCreate: " + category);
             }
         }
 
-        AddFruitsActivityItemAddButton.setOnClickListener(new View.OnClickListener() {
+        AddVegetableActivityItemAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: ");
 
-                itemId = AddFruitsActivityItemIdEditText.getText().toString();
-                itemCutOffPrice = AddFruitsActivityItemCutOffPriceEditText.getText().toString();
-                itemPrice = AddFruitsActivityItemPriceEditText.getText().toString();
-                itemName = AddFruitsActivityItemNameEditText.getText().toString();
-                itemWeight = AddFruitsActivityItemWeightEditText.getText().toString();
-                itemCategory = AddFruitsActivityItemCategoryEditText.getText().toString();
+                itemId = AddVegetableActivityItemIdEditText.getText().toString();
+                itemCutOffPrice = AddVegetableActivityItemCutOffPriceEditText.getText().toString();
+                itemPrice = AddVegetableActivityItemPriceEditText.getText().toString();
+                itemName = AddVegetableActivityItemNameEditText.getText().toString();
+                itemWeight = AddVegetableActivityItemWeightEditText.getText().toString();
+                itemCategory = AddVegetableActivityItemCategoryEditText.getText().toString();
 
                 if (!itemId.isEmpty() && !itemCutOffPrice.isEmpty() && !itemPrice.isEmpty()
                         && !itemName.isEmpty() && !itemWeight.isEmpty() && !itemCategory.isEmpty()) {
@@ -85,59 +86,38 @@ public class AddFruitActivity extends AppCompatActivity {
                         Log.d(TAG, "onClick: ");
                         addItemToDatabase();
                     } else {
-                        ShowSnackBar.snackBar(activity, AddFruitActivityRootView, activity.getResources().getString(R.string.please_select_image));
+                        ShowSnackBar.snackBar(activity, AddVegetableActivityRootView, activity.getResources().getString(R.string.please_select_image));
                     }
                 } else {
-                    ShowSnackBar.snackBar(activity, AddFruitActivityRootView, activity.getResources().getString(R.string.all_fields_are_mandetory));
+                    ShowSnackBar.snackBar(activity, AddVegetableActivityRootView, activity.getResources().getString(R.string.all_fields_are_mandetory));
                 }
             }
         });
 
-        AddFruitsActivityItemImageView.setOnClickListener(view -> {
+        AddVegetableActivityItemImageView.setOnClickListener(view -> {
             Intent intent = new Intent();
             intent.setType(IMAGE_MIME_TYPE);
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(intent,
                     activity.getResources().getString(R.string.select_picture)), RESULT_LOAD_IMAGE);
         });
-
     }
 
     public void initViews() {
-        AddFruitsActivityItemIdEditText = (EditText) findViewById(R.id.AddFruitsActivityItemIdEditText);
-        AddFruitsActivityItemCutOffPriceEditText = (EditText) findViewById(R.id.AddFruitsActivityItemCutOffPriceEditText);
-        AddFruitsActivityItemPriceEditText = (EditText) findViewById(R.id.AddFruitsActivityItemPriceEditText);
-        AddFruitsActivityItemNameEditText = (EditText) findViewById(R.id.AddFruitsActivityItemNameEditText);
-        AddFruitsActivityItemWeightEditText = (EditText) findViewById(R.id.AddFruitsActivityItemWeightEditText);
-        AddFruitsActivityItemCategoryEditText = (EditText) findViewById(R.id.AddFruitsActivityItemCategoryEditText);
-        AddFruitsActivityItemImageView = (ImageView) findViewById(R.id.AddFruitsActivityItemImageView);
-        AddFruitsActivityItemAddButton = (Button) findViewById(R.id.AddFruitsActivityItemAddButton);
-        AddFruitActivityRootView = (View) findViewById(R.id.AddFruitActivityRootView);
+        AddVegetableActivityItemIdEditText = (EditText) findViewById(R.id.AddVegetableActivityItemIdEditText);
+        AddVegetableActivityItemCutOffPriceEditText = (EditText) findViewById(R.id.AddVegetableActivityItemCutOffPriceEditText);
+        AddVegetableActivityItemPriceEditText = (EditText) findViewById(R.id.AddVegetableActivityItemPriceEditText);
+        AddVegetableActivityItemNameEditText = (EditText) findViewById(R.id.AddVegetableActivityItemNameEditText);
+        AddVegetableActivityItemWeightEditText = (EditText) findViewById(R.id.AddVegetableActivityItemWeightEditText);
+        AddVegetableActivityItemCategoryEditText = (EditText) findViewById(R.id.AddVegetableActivityItemCategoryEditText);
+        AddVegetableActivityItemImageView = (ImageView) findViewById(R.id.AddVegetableActivityItemImageView);
+        AddVegetableActivityItemAddButton = (Button) findViewById(R.id.AddVegetableActivityItemAddButton);
+        AddVegetableActivityRootView = (View) findViewById(R.id.AddVegetableActivityRootView);
 
         //initialize instance
         activity = this;
         myDatabaseReference = new MyDatabaseReference();
         progressDialog = new ProgressDialog(activity);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            try {
-                Log.d("FruitsActivity", "onActivityResult: ");
-                final Uri imageUri = data.getData();
-                assert imageUri != null;
-                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                bitmap = BitmapFactory.decodeStream(imageStream);
-                new BackgroundServiceForGenerateBase64StringOfImage(activity, base64String -> imageString = base64String).execute(bitmap);
-                setImageToGlide(bitmap, AddFruitsActivityItemImageView);
-                Log.d(TAG, "onActivityResult: " + itemId + itemCutOffPrice + itemName + itemPrice + itemWeight + itemCategory);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                Log.e(TAG, "onActivityResult" + e.getLocalizedMessage());
-            }
-        }
     }
 
     public void addItemToDatabase() {
@@ -193,6 +173,23 @@ public class AddFruitActivity extends AppCompatActivity {
         if (progressDialog != null) {
             if (progressDialog.isShowing()) {
                 progressDialog.show();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            try {
+                final Uri imageUri = data.getData();
+                assert imageUri != null;
+                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                bitmap = BitmapFactory.decodeStream(imageStream);
+                new BackgroundServiceForGenerateBase64StringOfImage(activity, base64String -> imageString = base64String).execute(bitmap);
+                setImageToGlide(bitmap, AddVegetableActivityItemImageView);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
         }
     }

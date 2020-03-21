@@ -6,8 +6,8 @@
     android:orientation="vertical"
     android:padding="@dimen/_15sdp"
     android:background="#A569BD"
-    tools:context=".activities.AddFruitActivity"
-    android:id="@+id/AddFruitActivityRootView">
+    tools:context=".activities.AddVegetableActivity"
+    android:id="@+id/AddVegetableActivityRootView">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/AddFruitsActivityItemIdEditText"
+                android:id="@+id/AddVegetableActivityItemIdEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -31,7 +31,7 @@
                 android:textColorHint="@color/white"></EditText>
 
             <EditText
-                android:id="@+id/AddFruitsActivityItemCutOffPriceEditText"
+                android:id="@+id/AddVegetableActivityItemCutOffPriceEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -42,7 +42,7 @@
                 android:textColorHint="@color/white"></EditText>
 
             <EditText
-                android:id="@+id/AddFruitsActivityItemPriceEditText"
+                android:id="@+id/AddVegetableActivityItemPriceEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
@@ -53,7 +53,7 @@
                 android:textColorHint="@color/white"></EditText>
 
             <EditText
-                android:id="@+id/AddFruitsActivityItemNameEditText"
+                android:id="@+id/AddVegetableActivityItemNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -64,7 +64,7 @@
                 android:textColorHint="@color/white"></EditText>
 
             <EditText
-                android:id="@+id/AddFruitsActivityItemWeightEditText"
+                android:id="@+id/AddVegetableActivityItemWeightEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -75,7 +75,7 @@
                 android:textColorHint="@color/white"></EditText>
 
             <EditText
-                android:id="@+id/AddFruitsActivityItemCategoryEditText"
+                android:id="@+id/AddVegetableActivityItemCategoryEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -87,7 +87,7 @@
                 android:textColorHint="@color/white"></EditText>
 
             <ImageView
-                android:id="@+id/AddFruitsActivityItemImageView"
+                android:id="@+id/AddVegetableActivityItemImageView"
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_100sdp"
                 android:layout_gravity="center"
@@ -95,7 +95,7 @@
                 android:src="@mipmap/ic_launcher"></ImageView>
 
             <Button
-                android:id="@+id/AddFruitsActivityItemAddButton"
+                android:id="@+id/AddVegetableActivityItemAddButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

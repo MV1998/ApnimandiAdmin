@@ -24,7 +24,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 import com.mohit.varma.apnimandiadmin.R;
 import com.mohit.varma.apnimandiadmin.interfaces.IUpdateItemCallBack;
 import com.mohit.varma.apnimandiadmin.model.UItem;
@@ -34,7 +33,7 @@ import com.mohit.varma.apnimandiadmin.utilities.ShowSnackBar;
 
 import java.util.List;
 
-public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.FruitItemAdapterViewHolder> {
+public class VegetableItemAdapter extends RecyclerView.Adapter<VegetableItemAdapter.VegetableItemAdapterViewHolder> {
     public static final String TAG = FruitItemAdapter.class.getSimpleName();
     private Context context;
     private List<UItem> uItemList;
@@ -44,7 +43,7 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
     private View rootView;
     private IUpdateItemCallBack iUpdateItemCallBack;
 
-    public FruitItemAdapter(Context context, List<UItem> uItemList, DatabaseReference reference, View rootView,IUpdateItemCallBack iUpdateItemCallBack) {
+    public VegetableItemAdapter(Context context, List<UItem> uItemList, DatabaseReference reference, View rootView,IUpdateItemCallBack iUpdateItemCallBack) {
         this.context = context;
         this.uItemList = uItemList;
         this.reference = reference;
@@ -55,14 +54,14 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
 
     @NonNull
     @Override
-    public FruitItemAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public VegetableItemAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.product_category_single_item_view, parent, false);
-        FruitItemAdapterViewHolder fruitItemAdapterViewHolder = new FruitItemAdapterViewHolder(view);
-        return fruitItemAdapterViewHolder;
+        VegetableItemAdapterViewHolder vegetableItemAdapterViewHolder = new VegetableItemAdapterViewHolder(view);
+        return vegetableItemAdapterViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FruitItemAdapterViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull VegetableItemAdapterViewHolder holder, int position) {
 
         final UItem uItem = uItemList.get(position);
         holder.ProductCategoryItemIdTextView.setText("Item Id : " + uItem.getmItemId());
@@ -88,7 +87,7 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
                             if (alertDialog != null && alertDialog.isShowing()) {
                                 alertDialog.dismiss();
                             }
-                            reference.child(Constant.ITEMS).child(Constant.FRUIT).orderByChild("mItemId").equalTo(uItem.getmItemId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            reference.child(Constant.ITEMS).child(Constant.VEGETABLE).orderByChild("mItemId").equalTo(uItem.getmItemId()).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     for(DataSnapshot item : dataSnapshot.getChildren()){
@@ -138,13 +137,13 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
         return uItemList.size();
     }
 
-    public class FruitItemAdapterViewHolder extends RecyclerView.ViewHolder {
+    public class VegetableItemAdapterViewHolder extends RecyclerView.ViewHolder {
         private CardView ProductCategoryItemCardView;
         private ImageView ProductCategoryItemImageView;
         private TextView ProductCategoryItemIdTextView, ProductCategoryItemCutOffPriceTextView, ProductCategoryItemPriceTextView, ProductCategoryItemNameTextView, ProductCategoryItemWeightTextView, ProductCategoryItemCategoryTextView;
         private Button ProductCategoryItemDeleteButtonView,ProductCategoryItemUpdateButtonView;
 
-        public FruitItemAdapterViewHolder(@NonNull View itemView) {
+        public VegetableItemAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
             ProductCategoryItemCardView = (CardView) itemView.findViewById(R.id.ProductCategoryItemCardView);
             ProductCategoryItemImageView = (ImageView) itemView.findViewById(R.id.ProductCategoryItemImageView);
