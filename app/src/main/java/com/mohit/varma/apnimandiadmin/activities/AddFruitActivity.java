@@ -71,6 +71,7 @@ public class AddFruitActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: ");
+
                 itemId = AddFruitsActivityItemIdEditText.getText().toString();
                 itemCutOffPrice = AddFruitsActivityItemCutOffPriceEditText.getText().toString();
                 itemPrice = AddFruitsActivityItemPriceEditText.getText().toString();
