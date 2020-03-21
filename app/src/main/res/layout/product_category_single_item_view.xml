@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:layout_margin="10dp"
+    app:ignore="NamespaceTypo">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/ProductCategoryItemCardView"
@@ -13,9 +16,9 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
-        card_view:cardCornerRadius="1dp"
-        card_view:cardElevation="1dp"
+        card_view:cardCornerRadius="5dp"
         card_view:cardUseCompatPadding="true"
+        app:cardElevation="@dimen/_3sdp"
         card_view:contentPadding="@dimen/_10sdp">
 
        <LinearLayout
@@ -25,8 +28,10 @@
 
            <ImageView
                android:id="@+id/ProductCategoryItemImageView"
-               android:layout_width="@dimen/_100sdp"
-               android:layout_height="@dimen/_100sdp"
+               android:layout_width="@dimen/_120sdp"
+               android:layout_height="@dimen/_120sdp"
+               android:scaleType="fitXY"
+               android:layout_marginBottom="@dimen/_10sdp"
                android:src="@drawable/ic_launcher_background"></ImageView>
 
            <TextView

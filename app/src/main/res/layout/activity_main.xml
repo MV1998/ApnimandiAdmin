@@ -33,9 +33,9 @@
            android:layout_width="match_parent"
            android:layout_height="@dimen/_100sdp"
            android:focusable="true"
-           card_view:cardCornerRadius="1dp"
+           card_view:cardCornerRadius="5dp"
            card_view:cardUseCompatPadding="true"
-           app:cardElevation="@dimen/_1sdp">
+           app:cardElevation="@dimen/_3sdp">
 
            <TextView
                android:id="@+id/MainActivityUserTextView"
@@ -58,9 +58,9 @@
            android:layout_height="@dimen/_100sdp"
            android:clickable="true"
            android:focusable="true"
-           card_view:cardCornerRadius="1dp"
-           card_view:cardElevation="1dp"
+           card_view:cardCornerRadius="5dp"
            card_view:cardUseCompatPadding="true"
+           app:cardElevation="@dimen/_3sdp"
            android:layout_marginTop="@dimen/_10sdp">
 
            <TextView
@@ -84,9 +84,9 @@
            android:layout_height="@dimen/_100sdp"
            android:clickable="true"
            android:focusable="true"
-           card_view:cardCornerRadius="1dp"
-           card_view:cardElevation="1dp"
+           card_view:cardCornerRadius="5dp"
            card_view:cardUseCompatPadding="true"
+           app:cardElevation="@dimen/_3sdp"
            android:layout_marginTop="@dimen/_10sdp">
 
            <TextView

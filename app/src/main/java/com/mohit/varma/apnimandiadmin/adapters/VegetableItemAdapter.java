@@ -34,7 +34,7 @@ import com.mohit.varma.apnimandiadmin.utilities.ShowSnackBar;
 import java.util.List;
 
 public class VegetableItemAdapter extends RecyclerView.Adapter<VegetableItemAdapter.VegetableItemAdapterViewHolder> {
-    public static final String TAG = FruitItemAdapter.class.getSimpleName();
+    public static final String TAG = VegetableItemAdapter.class.getSimpleName();
     private Context context;
     private List<UItem> uItemList;
     private AlertDialog.Builder builder;
@@ -165,6 +165,5 @@ public class VegetableItemAdapter extends RecyclerView.Adapter<VegetableItemAdap
     }
 
     public void setImageToGlide(Bitmap bitmap, ImageView imageView) {
-        Glide.with(context).load(bitmap).apply(RequestOptions.circleCropTransform()).into(imageView);
-    }
+        Glide.with(context).load(bitmap).apply(RequestOptions.centerInsideTransform()).into(imageView);    }
 }

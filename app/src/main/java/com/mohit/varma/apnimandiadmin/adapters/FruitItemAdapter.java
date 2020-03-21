@@ -166,6 +166,6 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
     }
 
     public void setImageToGlide(Bitmap bitmap, ImageView imageView) {
-        Glide.with(context).load(bitmap).apply(RequestOptions.circleCropTransform()).into(imageView);
+        Glide.with(context).load(bitmap).apply(RequestOptions.centerInsideTransform()).into(imageView);
     }
 }

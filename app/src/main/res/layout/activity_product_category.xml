@@ -32,9 +32,9 @@
             android:layout_height="@dimen/_100sdp"
             android:clickable="true"
             android:focusable="true"
-            card_view:cardCornerRadius="10dp"
-            card_view:cardElevation="2dp"
-            card_view:cardUseCompatPadding="true">
+            card_view:cardCornerRadius="5dp"
+            card_view:cardUseCompatPadding="true"
+            app:cardElevation="@dimen/_3sdp">
 
 
             <TextView
@@ -56,9 +56,9 @@
             android:layout_height="@dimen/_100sdp"
             android:clickable="true"
             android:focusable="true"
-            card_view:cardCornerRadius="10dp"
-            card_view:cardElevation="2dp"
+            card_view:cardCornerRadius="5dp"
             card_view:cardUseCompatPadding="true"
+            app:cardElevation="@dimen/_3sdp"
             android:layout_marginTop="@dimen/_10sdp">
 
 
