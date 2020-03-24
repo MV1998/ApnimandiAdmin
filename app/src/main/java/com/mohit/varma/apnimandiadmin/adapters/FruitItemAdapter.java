@@ -3,9 +3,6 @@ package com.mohit.varma.apnimandiadmin.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.mohit.varma.apnimandiadmin.R;
 import com.mohit.varma.apnimandiadmin.interfaces.IUpdateItemCallBack;
 import com.mohit.varma.apnimandiadmin.model.UItem;
@@ -44,7 +43,7 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
     private View rootView;
     private IUpdateItemCallBack iUpdateItemCallBack;
 
-    public FruitItemAdapter(Context context, List<UItem> uItemList, DatabaseReference reference, View rootView,IUpdateItemCallBack iUpdateItemCallBack) {
+    public FruitItemAdapter(Context context, List<UItem> uItemList, DatabaseReference reference, View rootView, IUpdateItemCallBack iUpdateItemCallBack) {
         this.context = context;
         this.uItemList = uItemList;
         this.reference = reference;
@@ -57,8 +56,7 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
     @Override
     public FruitItemAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.product_category_single_item_view, parent, false);
-        FruitItemAdapterViewHolder fruitItemAdapterViewHolder = new FruitItemAdapterViewHolder(view);
-        return fruitItemAdapterViewHolder;
+        return new FruitItemAdapterViewHolder(view);
     }
 
     @Override
@@ -72,15 +70,15 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
         holder.ProductCategoryItemWeightTextView.setText("Item weight : " + uItem.getmItemWeight());
         holder.ProductCategoryItemCategoryTextView.setText("Item Category : " + uItem.getmItemCategory());
 
-        if(uItem.getmItemImage() != null && !uItem.getmItemImage().isEmpty()){
-            setImageToGlide(convertBase64ToBitmap(uItem.getmItemImage()), holder.ProductCategoryItemImageView);
+        if (uItem.getmItemImage() != null && !uItem.getmItemImage().isEmpty()) {
+            setImageToGlide(uItem.getmItemImage(), holder.ProductCategoryItemImageView);
         }
 
         holder.ProductCategoryItemDeleteButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (IsInternetConnectivity.isConnected(context)) {
-                    builder.setMessage("Are you to delete?");
+                    builder.setMessage("Are sure you to delete?");
                     builder.setCancelable(false);
                     builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
@@ -91,11 +89,19 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
                             reference.child(Constant.ITEMS).child(Constant.FRUIT).orderByChild("mItemId").equalTo(uItem.getmItemId()).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    for(DataSnapshot item : dataSnapshot.getChildren()){
+                                    for (DataSnapshot item : dataSnapshot.getChildren()) {
+                                        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+                                        StorageReference storageReference = firebaseStorage.getReferenceFromUrl(uItem.getmItemImage());
+                                        storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+
+                                            }
+                                        });
                                         item.getRef().removeValue(new DatabaseReference.CompletionListener() {
                                             @Override
                                             public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                                                ShowSnackBar.snackBar(context,rootView,context.getResources().getString(R.string.item_deleted_successfully));
+                                                ShowSnackBar.snackBar(context, rootView, context.getResources().getString(R.string.item_deleted_successfully));
                                             }
                                         });
                                     }
@@ -118,7 +124,7 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
                     alertDialog = builder.create();
                     alertDialog.show();
                 } else {
-                    ShowSnackBar.snackBar(context, rootView,context.getResources().getString(R.string.please_check_internet_connectivity));
+                    ShowSnackBar.snackBar(context, rootView, context.getResources().getString(R.string.please_check_internet_connectivity));
                 }
             }
         });
@@ -126,8 +132,12 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
         holder.ProductCategoryItemUpdateButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(iUpdateItemCallBack != null){
-                    iUpdateItemCallBack.updateItem(uItem);
+                if (iUpdateItemCallBack != null) {
+                    if (IsInternetConnectivity.isConnected(context)) {
+                        iUpdateItemCallBack.updateItem(uItem);
+                    } else {
+                        ShowSnackBar.snackBar(context, rootView, context.getResources().getString(R.string.please_check_internet_connectivity));
+                    }
                 }
             }
         });
@@ -142,7 +152,7 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
         private CardView ProductCategoryItemCardView;
         private ImageView ProductCategoryItemImageView;
         private TextView ProductCategoryItemIdTextView, ProductCategoryItemCutOffPriceTextView, ProductCategoryItemPriceTextView, ProductCategoryItemNameTextView, ProductCategoryItemWeightTextView, ProductCategoryItemCategoryTextView;
-        private Button ProductCategoryItemDeleteButtonView,ProductCategoryItemUpdateButtonView;
+        private Button ProductCategoryItemDeleteButtonView, ProductCategoryItemUpdateButtonView;
 
         public FruitItemAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -159,13 +169,10 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
         }
     }
 
-    public Bitmap convertBase64ToBitmap(String encodedImage) {
-        byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        return decodedByte;
-    }
-
-    public void setImageToGlide(Bitmap bitmap, ImageView imageView) {
-        Glide.with(context).load(bitmap).apply(RequestOptions.centerInsideTransform()).into(imageView);
+    public void setImageToGlide(String image_url, ImageView imageView) {
+        RequestOptions options = new RequestOptions()
+                .placeholder(R.drawable.market)
+                .error(R.drawable.market);
+        Glide.with(context).load(image_url).apply(options).apply(RequestOptions.centerInsideTransform()).into(imageView);
     }
 }

@@ -28,7 +28,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.mohit.varma.apnimandiadmin.R;
-import com.mohit.varma.apnimandiadmin.adapters.FruitItemAdapter;
 import com.mohit.varma.apnimandiadmin.adapters.VegetableItemAdapter;
 import com.mohit.varma.apnimandiadmin.firebase.MyDatabaseReference;
 import com.mohit.varma.apnimandiadmin.interfaces.IUpdateItemCallBack;
@@ -61,12 +60,12 @@ public class VegetablesActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private AlertDialog updateAlertDialog;
     private String category = "";
-    private UItem uitemUpdated;
+    private UItem uItemUpdated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_vegetabls);
+        setContentView(R.layout.activity_vegetables);
 
         initViews();
         showProgressDialog();
@@ -168,7 +167,7 @@ public class VegetablesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (IsInternetConnectivity.isConnected(activity)) {
-                    intent = new Intent(activity, AddVegetableActivity.class);
+                    intent = new Intent(activity, AddItemActivity.class);
                     intent.putExtra(ITEM_KEY, category);
                     startActivity(intent);
                 } else {
@@ -185,7 +184,7 @@ public class VegetablesActivity extends AppCompatActivity {
             adapter = new VegetableItemAdapter(activity, uItemList, databaseReference, VegetablesActivityRecyclerView, new IUpdateItemCallBack() {
                 @Override
                 public void updateItem(UItem uItem) {
-                    uitemUpdated = uItem;
+                    uItemUpdated = uItem;
                     showUpdateDialog();
                 }
             });
@@ -220,10 +219,10 @@ public class VegetablesActivity extends AppCompatActivity {
             if (updatedItemCutOffPrice != null && !updatedItemCutOffPrice.isEmpty() && updatedItemPrice != null && !updatedItemPrice.isEmpty()) {
                 dismissUpdateAlertDialog();
                 showProgressDialog();
-                if (uitemUpdated != null) {
-                    UItem uItem = new UItem(uitemUpdated.getmItemId(), Integer.parseInt(updatedItemCutOffPrice),
-                            Integer.parseInt(updatedItemPrice), uitemUpdated.getmItemName(),
-                            uitemUpdated.getmItemImage(), uitemUpdated.getmItemWeight(), uitemUpdated.getmItemCategory());
+                if (uItemUpdated != null) {
+                    UItem uItem = new UItem(uItemUpdated.getmItemId(), Integer.parseInt(updatedItemCutOffPrice),
+                            Integer.parseInt(updatedItemPrice), uItemUpdated.getmItemName(),
+                            uItemUpdated.getmItemImage(), uItemUpdated.getmItemWeight(), uItemUpdated.getmItemCategory());
                     if (uItem != null) {
                         databaseReference.child(Constant.ITEMS).child(Constant.VEGETABLE).orderByChild("mItemId").equalTo(uItem.getmItemId()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override

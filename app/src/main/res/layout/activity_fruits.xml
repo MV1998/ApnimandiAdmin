@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         app:navigationIcon="@drawable/arrow_left_black_24dp"
-        app:title="@string/product_category"
+        app:title="@string/fruits"
         app:titleTextColor="@color/black"></androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView

@@ -1,6 +1,5 @@
 package com.mohit.varma.apnimandiadmin.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -28,7 +27,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 import com.mohit.varma.apnimandiadmin.R;
 import com.mohit.varma.apnimandiadmin.adapters.FruitItemAdapter;
 import com.mohit.varma.apnimandiadmin.firebase.MyDatabaseReference;
@@ -149,7 +147,7 @@ public class FruitsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (IsInternetConnectivity.isConnected(activity)) {
-                    intent = new Intent(activity, AddFruitActivity.class);
+                    intent = new Intent(activity, AddItemActivity.class);
                     intent.putExtra(ITEM_KEY, category);
                     startActivity(intent);
                 } else {
@@ -231,8 +229,7 @@ public class FruitsActivity extends AppCompatActivity {
         UpdateItemAlertDialogLayoutItemUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onClick ");
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(FruitsActivityRootView.getWindowToken(), 0);
                 updateItem();
             }

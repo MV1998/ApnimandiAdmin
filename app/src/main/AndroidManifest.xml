@@ -17,8 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.AddVegetableActivity"></activity>
-        <activity android:name=".activities.AddFruitActivity" />
+        <activity android:name=".activities.AddItemActivity" />
         <activity android:name=".activities.VegetablesActivity" />
         <activity android:name=".activities.FruitsActivity" />
         <activity

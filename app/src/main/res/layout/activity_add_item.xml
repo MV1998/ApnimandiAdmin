@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="@dimen/_15sdp"
     android:background="#A569BD"
-    tools:context=".activities.AddFruitActivity"
+    tools:context=".activities.AddItemActivity"
     android:id="@+id/AddFruitActivityRootView">
 
     <ScrollView

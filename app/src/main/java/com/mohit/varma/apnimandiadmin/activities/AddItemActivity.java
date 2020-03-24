@@ -18,37 +18,41 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 import com.mohit.varma.apnimandiadmin.R;
-import com.mohit.varma.apnimandiadmin.background.BackgroundServiceForGenerateBase64StringOfImage;
 import com.mohit.varma.apnimandiadmin.firebase.MyDatabaseReference;
 import com.mohit.varma.apnimandiadmin.model.UItem;
 import com.mohit.varma.apnimandiadmin.utilities.ShowSnackBar;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.sql.Timestamp;
 
 import static com.mohit.varma.apnimandiadmin.utilities.Constant.IMAGE_MIME_TYPE;
 import static com.mohit.varma.apnimandiadmin.utilities.Constant.ITEMS;
 import static com.mohit.varma.apnimandiadmin.utilities.Constant.ITEM_KEY;
 
-public class AddFruitActivity extends AppCompatActivity {
-    public static final String TAG = AddFruitActivity.class.getSimpleName();
+public class AddItemActivity extends AppCompatActivity {
+    public static final String TAG = AddItemActivity.class.getSimpleName();
     private static final int RESULT_LOAD_IMAGE = 100;
-
     private Button AddFruitsActivityItemAddButton;
     private ImageView AddFruitsActivityItemImageView;
     private EditText AddFruitsActivityItemIdEditText, AddFruitsActivityItemCutOffPriceEditText,
             AddFruitsActivityItemPriceEditText, AddFruitsActivityItemNameEditText,
             AddFruitsActivityItemWeightEditText, AddFruitsActivityItemCategoryEditText;
     private View AddFruitActivityRootView;
-
-    private String imageString, itemId, itemCutOffPrice, itemPrice, itemName, itemWeight, itemCategory;
+    private String imageURI = null, itemId, itemCutOffPrice, itemPrice, itemName, itemWeight, itemCategory;
     private Context activity;
-    private Bitmap bitmap;
-
+    private Bitmap bitmap = null;
     private MyDatabaseReference myDatabaseReference;
     private ProgressDialog progressDialog;
     private String category;
@@ -56,7 +60,7 @@ public class AddFruitActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_fruit);
+        setContentView(R.layout.activity_add_item);
 
         initViews();
 
@@ -81,9 +85,8 @@ public class AddFruitActivity extends AppCompatActivity {
                 if (!itemId.isEmpty() && !itemCutOffPrice.isEmpty() && !itemPrice.isEmpty()
                         && !itemName.isEmpty() && !itemWeight.isEmpty() && !itemCategory.isEmpty()) {
                     Log.d(TAG, "onClick: ");
-                    if (imageString != null && !imageString.isEmpty()) {
-                        Log.d(TAG, "onClick: ");
-                        addItemToDatabase();
+                    if (bitmap != null) {
+                        uploadFile(bitmap);
                     } else {
                         ShowSnackBar.snackBar(activity, AddFruitActivityRootView, activity.getResources().getString(R.string.please_select_image));
                     }
@@ -130,23 +133,20 @@ public class AddFruitActivity extends AppCompatActivity {
                 assert imageUri != null;
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 bitmap = BitmapFactory.decodeStream(imageStream);
-                new BackgroundServiceForGenerateBase64StringOfImage(activity, base64String -> imageString = base64String).execute(bitmap);
+                //new BackgroundServiceForGenerateBase64StringOfImage(activity, base64String -> imageString = base64String).execute(bitmap);
                 setImageToGlide(bitmap, AddFruitsActivityItemImageView);
-                Log.d(TAG, "onActivityResult: " + itemId + itemCutOffPrice + itemName + itemPrice + itemWeight + itemCategory);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-                Log.e(TAG, "onActivityResult" + e.getLocalizedMessage());
             }
         }
     }
 
     public void addItemToDatabase() {
-        showProgressDialog();
         UItem item = new UItem(Integer.parseInt(itemId),
                 Integer.parseInt(itemCutOffPrice),
                 Integer.parseInt(itemPrice),
                 itemName,
-                imageString,
+                imageURI,
                 itemWeight,
                 itemCategory);
         if (item != null) {
@@ -199,5 +199,53 @@ public class AddFruitActivity extends AppCompatActivity {
 
     public void setImageToGlide(Bitmap bitmap, ImageView imageView) {
         Glide.with(activity).load(bitmap).apply(RequestOptions.circleCropTransform()).into(imageView);
+    }
+
+
+    private void uploadFile(Bitmap bitmap) {
+        showProgressDialog();
+        StorageReference mountainImagesRef = myDatabaseReference.getStorageReference().child(category+"/" + new Timestamp(System.currentTimeMillis()).getTime() + ".jpg");
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
+        byte[] data = byteArrayOutputStream.toByteArray();
+        UploadTask uploadTask = mountainImagesRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                dismissProgressDialog();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if (!task.isSuccessful()) {
+                            throw task.getException();
+                        }
+                        return mountainImagesRef.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri downUri = task.getResult();
+                            if (downUri != null) {
+                                imageURI = downUri.toString();
+                                if (imageURI != null && !imageURI.isEmpty()) {
+                                    addItemToDatabase();
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
+            }
+        });
     }
 }
