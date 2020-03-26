@@ -60,11 +60,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void initViews() {
-        mainActivityToolbar = (Toolbar) findViewById(R.id.mainActivityToolbar);
-        MainActivityUserCardView = (CardView) findViewById(R.id.MainActivityUserCardView);
-        MainActivityProductCategoryCardView = (CardView) findViewById(R.id.MainActivityProductCategoryCardView);
-        MainActivityOrderCardView = (CardView) findViewById(R.id.MainActivityOrderCardView);
-        MainActivityRootView = (View) findViewById(R.id.MainActivityRootView);
+        mainActivityToolbar = findViewById(R.id.mainActivityToolbar);
+        MainActivityUserCardView = findViewById(R.id.MainActivityUserCardView);
+        MainActivityProductCategoryCardView = findViewById(R.id.MainActivityProductCategoryCardView);
+        MainActivityOrderCardView = findViewById(R.id.MainActivityOrderCardView);
+        MainActivityRootView = findViewById(R.id.MainActivityRootView);
         activity = this;
     }
 
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         if (activity != null) {
             if(IsInternetConnectivity.isConnected(activity)) {
                 intent = new Intent(activity, UsersActivity.class);
-                startActivity(intent);;
+                startActivity(intent);
             }else {
                 ShowSnackBar.snackBar(activity,MainActivityRootView,activity.getResources().getString(R.string.please_check_internet_connectivity));
             }

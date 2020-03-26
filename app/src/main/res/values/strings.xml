@@ -18,4 +18,8 @@
     <string name="item_id_not_found">Deleting failed. Item id not found.</string>
     <string name="item_deleted_successfully">Item is deleted successfully</string>
     <string name="update">Update</string>
+    <string name="snacks">Snacks</string>
+    <string name="protein">Protein</string>
+    <string name="backing">Backing</string>
+    <string name="item_removed_from_most_popular_section">Item successfully removed from most popular section.</string>
 </resources>

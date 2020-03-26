@@ -3,6 +3,8 @@ package com.mohit.varma.apnimandiadmin.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,6 +35,8 @@ import com.mohit.varma.apnimandiadmin.utilities.IsInternetConnectivity;
 import com.mohit.varma.apnimandiadmin.utilities.ShowSnackBar;
 
 import java.util.List;
+
+import static com.mohit.varma.apnimandiadmin.utilities.Constant.ITEMS;
 
 public class VegetableItemAdapter extends RecyclerView.Adapter<VegetableItemAdapter.VegetableItemAdapterViewHolder> {
     public static final String TAG = VegetableItemAdapter.class.getSimpleName();
@@ -74,6 +79,14 @@ public class VegetableItemAdapter extends RecyclerView.Adapter<VegetableItemAdap
             setImageToGlide(uItem.getmItemImage(), holder.ProductCategoryItemImageView);
         }
 
+        if (uItemList != null && uItemList.size() > 0) {
+            if (uItemList.get(position).isPopular()) {
+                holder.ProductCategoryItemCardView.setCardBackgroundColor(Color.parseColor("#90EE90"));
+            } else {
+                holder.ProductCategoryItemCardView.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            }
+        }
+
         holder.ProductCategoryItemDeleteButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,6 +125,26 @@ public class VegetableItemAdapter extends RecyclerView.Adapter<VegetableItemAdap
                                     ShowSnackBar.snackBar(context, rootView, context.getResources().getString(R.string.item_id_not_found));
                                 }
                             });
+                            reference.child(Constant.ITEMS).child(Constant.MOST_POPULAR).orderByChild("mItemId").equalTo(uItemList.get(position).getmItemId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.exists()) {
+                                        for (DataSnapshot item : dataSnapshot.getChildren()) {
+                                            item.getRef().removeValue(new DatabaseReference.CompletionListener() {
+                                                @Override
+                                                public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                                                    ShowSnackBar.snackBar(context, rootView, context.getResources().getString(R.string.item_removed_from_most_popular_section));
+                                                }
+                                            });
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    ShowSnackBar.snackBar(context, rootView, context.getResources().getString(R.string.item_id_not_found));
+                                }
+                            });
                         }
                     }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
@@ -141,6 +174,31 @@ public class VegetableItemAdapter extends RecyclerView.Adapter<VegetableItemAdap
                 }
             }
         });
+
+        holder.ProductCategoryItemCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (IsInternetConnectivity.isConnected(context)) {
+                    if (!uItemList.get(position).isPopular()) {
+                        uItemList.get(position).setPopular(true);
+                        holder.ProductCategoryItemCardView.setCardBackgroundColor(Color.parseColor("#90EE90"));
+                        if (uItemList.get(position) != null) {
+                            setTrueToItemInPopularInFirebase(position);
+                            addItemToMostPopularInFirebaseDatabase(position);
+                        }
+                    } else {
+                        uItemList.get(position).setPopular(false);
+                        holder.ProductCategoryItemCardView.setCardBackgroundColor(Color.parseColor("#ffffff"));
+                        if (uItemList.get(position) != null) {
+                            setFalseToItemInPopularInFirebase(position);
+                            removeItemFromMostPopularInFirebaseDatabase(position);
+                        }
+                    }
+                } else {
+                    ShowSnackBar.snackBar(context, rootView, context.getResources().getString(R.string.please_check_internet_connectivity));
+                }
+            }
+        });
     }
 
     @Override
@@ -156,16 +214,16 @@ public class VegetableItemAdapter extends RecyclerView.Adapter<VegetableItemAdap
 
         public VegetableItemAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
-            ProductCategoryItemCardView = (CardView) itemView.findViewById(R.id.ProductCategoryItemCardView);
-            ProductCategoryItemImageView = (ImageView) itemView.findViewById(R.id.ProductCategoryItemImageView);
-            ProductCategoryItemIdTextView = (TextView) itemView.findViewById(R.id.ProductCategoryItemIdTextView);
-            ProductCategoryItemCutOffPriceTextView = (TextView) itemView.findViewById(R.id.ProductCategoryItemCutOffPriceTextView);
-            ProductCategoryItemPriceTextView = (TextView) itemView.findViewById(R.id.ProductCategoryItemPriceTextView);
-            ProductCategoryItemNameTextView = (TextView) itemView.findViewById(R.id.ProductCategoryItemNameTextView);
-            ProductCategoryItemWeightTextView = (TextView) itemView.findViewById(R.id.ProductCategoryItemWeightTextView);
-            ProductCategoryItemCategoryTextView = (TextView) itemView.findViewById(R.id.ProductCategoryItemCategoryTextView);
-            ProductCategoryItemDeleteButtonView = (Button) itemView.findViewById(R.id.ProductCategoryItemDeleteButtonView);
-            ProductCategoryItemUpdateButtonView = (Button) itemView.findViewById(R.id.ProductCategoryItemUpdateButtonView);
+            ProductCategoryItemCardView = itemView.findViewById(R.id.ProductCategoryItemCardView);
+            ProductCategoryItemImageView = itemView.findViewById(R.id.ProductCategoryItemImageView);
+            ProductCategoryItemIdTextView = itemView.findViewById(R.id.ProductCategoryItemIdTextView);
+            ProductCategoryItemCutOffPriceTextView = itemView.findViewById(R.id.ProductCategoryItemCutOffPriceTextView);
+            ProductCategoryItemPriceTextView = itemView.findViewById(R.id.ProductCategoryItemPriceTextView);
+            ProductCategoryItemNameTextView = itemView.findViewById(R.id.ProductCategoryItemNameTextView);
+            ProductCategoryItemWeightTextView = itemView.findViewById(R.id.ProductCategoryItemWeightTextView);
+            ProductCategoryItemCategoryTextView = itemView.findViewById(R.id.ProductCategoryItemCategoryTextView);
+            ProductCategoryItemDeleteButtonView = itemView.findViewById(R.id.ProductCategoryItemDeleteButtonView);
+            ProductCategoryItemUpdateButtonView = itemView.findViewById(R.id.ProductCategoryItemUpdateButtonView);
         }
     }
 
@@ -174,5 +232,81 @@ public class VegetableItemAdapter extends RecyclerView.Adapter<VegetableItemAdap
                 .placeholder(R.drawable.market)
                 .error(R.drawable.market);
         Glide.with(context).load(image_url).apply(options).apply(RequestOptions.centerInsideTransform()).into(imageView);
+    }
+
+    public void setTrueToItemInPopularInFirebase(int position) {
+        reference.child(Constant.ITEMS).child(Constant.VEGETABLE).orderByChild("mItemId").equalTo(uItemList.get(position).getmItemId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    item.getRef().setValue(uItemList.get(position));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void setFalseToItemInPopularInFirebase(int position) {
+        reference.child(Constant.ITEMS).child(Constant.VEGETABLE).orderByChild("mItemId").equalTo(uItemList.get(position).getmItemId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    item.getRef().setValue(uItemList.get(position));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void addItemToMostPopularInFirebaseDatabase(int position) {
+        reference.child(ITEMS).child(Constant.MOST_POPULAR)
+                .push()
+                .setValue(uItemList.get(position)).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: ");
+            }
+        });
+    }
+
+    public void removeItemFromMostPopularInFirebaseDatabase(int position) {
+        reference.child(Constant.ITEMS).child(Constant.MOST_POPULAR).orderByChild("mItemId").equalTo(uItemList.get(position).getmItemId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+                    StorageReference storageReference = firebaseStorage.getReferenceFromUrl(uItemList.get(position).getmItemImage());
+                    storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+                    });
+                    item.getRef().removeValue(new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                            ShowSnackBar.snackBar(context, rootView, context.getResources().getString(R.string.item_removed_from_most_popular_section));
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                ShowSnackBar.snackBar(context, rootView, context.getResources().getString(R.string.item_id_not_found));
+            }
+        });
     }
 }

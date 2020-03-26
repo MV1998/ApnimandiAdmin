@@ -27,9 +27,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 import com.mohit.varma.apnimandiadmin.R;
-import com.mohit.varma.apnimandiadmin.adapters.FruitItemAdapter;
+import com.mohit.varma.apnimandiadmin.adapters.SnacksAdapter;
 import com.mohit.varma.apnimandiadmin.firebase.MyDatabaseReference;
 import com.mohit.varma.apnimandiadmin.interfaces.IUpdateItemCallBack;
 import com.mohit.varma.apnimandiadmin.model.UItem;
@@ -39,24 +38,23 @@ import com.mohit.varma.apnimandiadmin.utilities.ShowSnackBar;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Consumer;
 
 import static com.mohit.varma.apnimandiadmin.utilities.Constant.ITEMS;
 import static com.mohit.varma.apnimandiadmin.utilities.Constant.ITEM_KEY;
 
-public class FruitsActivity extends AppCompatActivity {
-    public static final String TAG = FruitsActivity.class.getSimpleName();
-    private Toolbar AddFruitsActivityToolbar;
+public class SnacksActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final String TAG = SnacksActivity.class.getSimpleName();
+    private Toolbar SnacksActivityToolbar;
     private EditText UpdateItemAlertDialogLayoutItemCutOffPriceEditText, UpdateItemAlertDialogLayoutItemPriceEditText;
-    private RecyclerView AddFruitsActivityRecyclerView;
-    private TextView FruitsActivityNoItemAddedYetTextView;
-    private FloatingActionButton AddFruitsActivityFab;
+    private RecyclerView SnacksActivityRecyclerView;
+    private TextView SnacksActivityNoItemAddedYetTextView;
+    private FloatingActionButton SnacksActivityFab;
     private Context activity;
-    private View FruitsActivityRootView, alertView;
+    private View SnacksActivityRootView, alertView;
     private Intent intent;
     private List<UItem> uItemList = new LinkedList<>();
     private DatabaseReference databaseReference;
-    private FruitItemAdapter adapter;
+    private SnacksAdapter adapter;
     private ProgressDialog progressDialog;
     private AlertDialog updateAlertDialog;
     private String category = "";
@@ -65,12 +63,14 @@ public class FruitsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fruits);
+        setContentView(R.layout.activity_snacks);
 
         initViews();
         showProgressDialog();
-        //set toolbar
-        setSupportActionBar(AddFruitsActivityToolbar);
+
+        setListener();
+
+        setSupportActionBar(SnacksActivityToolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -82,9 +82,7 @@ public class FruitsActivity extends AppCompatActivity {
             }
         }
 
-        floatingActionButtonConsumer.accept(AddFruitsActivityFab);
-
-        AddFruitsActivityToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        SnacksActivityToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
@@ -104,19 +102,19 @@ public class FruitsActivity extends AppCompatActivity {
                         if (uItemList != null && uItemList.size() > 0) {
                             if (adapter != null) {
                                 dismissProgressDialog();
-                                AddFruitsActivityRecyclerView.setVisibility(View.VISIBLE);
-                                FruitsActivityNoItemAddedYetTextView.setVisibility(View.GONE);
+                                SnacksActivityRecyclerView.setVisibility(View.VISIBLE);
+                                SnacksActivityNoItemAddedYetTextView.setVisibility(View.GONE);
                                 adapter.notifyDataSetChanged();
                             } else {
                                 dismissProgressDialog();
-                                AddFruitsActivityRecyclerView.setVisibility(View.VISIBLE);
-                                FruitsActivityNoItemAddedYetTextView.setVisibility(View.GONE);
+                                SnacksActivityRecyclerView.setVisibility(View.VISIBLE);
+                                SnacksActivityNoItemAddedYetTextView.setVisibility(View.GONE);
                                 setAdapter();
                             }
                         }
                     } else {
-                        AddFruitsActivityRecyclerView.setVisibility(View.GONE);
-                        FruitsActivityNoItemAddedYetTextView.setVisibility(View.VISIBLE);
+                        SnacksActivityRecyclerView.setVisibility(View.GONE);
+                        SnacksActivityNoItemAddedYetTextView.setVisibility(View.VISIBLE);
                         dismissProgressDialog();
                     }
                 } catch (Exception e) {
@@ -132,52 +130,19 @@ public class FruitsActivity extends AppCompatActivity {
     }
 
     public void initViews() {
-        AddFruitsActivityToolbar = findViewById(R.id.AddFruitsActivityToolbar);
-        AddFruitsActivityRecyclerView = findViewById(R.id.AddFruitsActivityRecyclerView);
-        AddFruitsActivityFab = findViewById(R.id.AddFruitsActivityFab);
-        FruitsActivityNoItemAddedYetTextView = findViewById(R.id.FruitsActivityNoItemAddedYetTextView);
-        FruitsActivityRootView = findViewById(R.id.FruitsActivityRootView);
+        SnacksActivityToolbar = findViewById(R.id.SnacksActivityToolbar);
+        SnacksActivityRecyclerView = findViewById(R.id.SnacksActivityRecyclerView);
+        SnacksActivityFab = findViewById(R.id.SnacksActivityFab);
+        SnacksActivityNoItemAddedYetTextView = findViewById(R.id.SnacksActivityNoItemAddedYetTextView);
+        SnacksActivityRootView = findViewById(R.id.SnacksActivityRootView);
         this.activity = this;
         databaseReference = new MyDatabaseReference().getReference();
         progressDialog = new ProgressDialog(activity);
     }
 
-    Consumer<FloatingActionButton> floatingActionButtonConsumer = floatingActionButton -> {
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (IsInternetConnectivity.isConnected(activity)) {
-                    intent = new Intent(activity, AddItemActivity.class);
-                    intent.putExtra(ITEM_KEY, category);
-                    startActivity(intent);
-                } else {
-                    ShowSnackBar.snackBar(activity, FruitsActivityRootView, activity.getResources().getString(R.string.please_check_internet_connectivity));
-                }
-            }
-        });
-    };
-
-    public void setAdapter() {
-        if (uItemList != null && uItemList.size() > 0) {
-            AddFruitsActivityRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
-            AddFruitsActivityRecyclerView.setHasFixedSize(true);
-            adapter = new FruitItemAdapter(activity, uItemList, databaseReference, FruitsActivityRootView, new IUpdateItemCallBack() {
-                @Override
-                public void updateItem(UItem uItem) {
-                    uItemUpdated = uItem;
-                    Log.d(TAG, "updateItem: " + new Gson().toJson(uItemUpdated));
-                    showUpdateDialog();
-                }
-            });
-            AddFruitsActivityRecyclerView.setAdapter(adapter);
-        }
+    public void setListener() {
+        SnacksActivityFab.setOnClickListener(this);
     }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
 
     public void showProgressDialog() {
         if (progressDialog != null && !progressDialog.isShowing()) {
@@ -200,22 +165,42 @@ public class FruitsActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id) {
+            case R.id.SnacksActivityFab:
+                actionAtOnClickFABButton();
+                break;
+        }
+    }
+
+    public void actionAtOnClickFABButton() {
+        if (IsInternetConnectivity.isConnected(activity)) {
+            intent = new Intent(activity, AddItemActivity.class);
+            intent.putExtra(ITEM_KEY, category);
+            startActivity(intent);
+        } else {
+            ShowSnackBar.snackBar(activity, SnacksActivityRootView, activity.getResources().getString(R.string.please_check_internet_connectivity));
+        }
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        if (progressDialog != null) {
-            if (progressDialog.isShowing()) {
-                progressDialog.show();
-            }
-        }
-        if (updateAlertDialog != null) {
-            if (updateAlertDialog.isShowing()) {
-                updateAlertDialog.show();
-            }
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    public void setAdapter() {
+        if (uItemList != null && uItemList.size() > 0) {
+            SnacksActivityRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
+            SnacksActivityRecyclerView.setHasFixedSize(true);
+            adapter = new SnacksAdapter(activity, uItemList, databaseReference, SnacksActivityRootView, new IUpdateItemCallBack() {
+                @Override
+                public void updateItem(UItem uItem) {
+                    uItemUpdated = uItem;
+                    showUpdateDialog();
+                }
+            });
+            SnacksActivityRecyclerView.setAdapter(adapter);
         }
     }
 
@@ -232,7 +217,7 @@ public class FruitsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (imm != null) {
-                    imm.hideSoftInputFromWindow(FruitsActivityRootView.getWindowToken(), 0);
+                    imm.hideSoftInputFromWindow(SnacksActivityRootView.getWindowToken(), 0);
                 }
                 updateItem();
             }
@@ -249,15 +234,15 @@ public class FruitsActivity extends AppCompatActivity {
                 dismissUpdateAlertDialog();
                 showProgressDialog();
                 if (uItemUpdated != null) {
-                    UItem updateItem = new UItem(uItemUpdated.getmItemId(), Integer.parseInt(updatedItemCutOffPrice),
+                    UItem uItem = new UItem(uItemUpdated.getmItemId(), Integer.parseInt(updatedItemCutOffPrice),
                             Integer.parseInt(updatedItemPrice), uItemUpdated.getmItemName(),
                             uItemUpdated.getmItemImage(), uItemUpdated.getmItemWeight(), uItemUpdated.getmItemCategory(), uItemUpdated.isPopular());
-                    if (updateItem != null) {
-                        databaseReference.child(Constant.ITEMS).child(Constant.FRUIT).orderByChild("mItemId").equalTo(updateItem.getmItemId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    if (uItem != null) {
+                        databaseReference.child(Constant.ITEMS).child(Constant.SNACKS).orderByChild("mItemId").equalTo(uItem.getmItemId()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                                    item.getRef().setValue(updateItem).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    item.getRef().setValue(uItem).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             dismissProgressDialog();
@@ -279,10 +264,10 @@ public class FruitsActivity extends AppCompatActivity {
                     }
                 }
             } else {
-                ShowSnackBar.snackBar(activity, FruitsActivityRootView, activity.getResources().getString(R.string.all_fields_are_mandetory));
+                ShowSnackBar.snackBar(activity, SnacksActivityRootView, activity.getResources().getString(R.string.all_fields_are_mandetory));
             }
         } else {
-            ShowSnackBar.snackBar(activity, FruitsActivityRootView, activity.getResources().getString(R.string.please_check_internet_connectivity));
+            ShowSnackBar.snackBar(activity, SnacksActivityRootView, activity.getResources().getString(R.string.please_check_internet_connectivity));
         }
     }
 }

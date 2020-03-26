@@ -107,15 +107,15 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     public void initViews() {
-        AddFruitsActivityItemIdEditText = (EditText) findViewById(R.id.AddFruitsActivityItemIdEditText);
-        AddFruitsActivityItemCutOffPriceEditText = (EditText) findViewById(R.id.AddFruitsActivityItemCutOffPriceEditText);
-        AddFruitsActivityItemPriceEditText = (EditText) findViewById(R.id.AddFruitsActivityItemPriceEditText);
-        AddFruitsActivityItemNameEditText = (EditText) findViewById(R.id.AddFruitsActivityItemNameEditText);
-        AddFruitsActivityItemWeightEditText = (EditText) findViewById(R.id.AddFruitsActivityItemWeightEditText);
-        AddFruitsActivityItemCategoryEditText = (EditText) findViewById(R.id.AddFruitsActivityItemCategoryEditText);
-        AddFruitsActivityItemImageView = (ImageView) findViewById(R.id.AddFruitsActivityItemImageView);
-        AddFruitsActivityItemAddButton = (Button) findViewById(R.id.AddFruitsActivityItemAddButton);
-        AddFruitActivityRootView = (View) findViewById(R.id.AddFruitActivityRootView);
+        AddFruitsActivityItemIdEditText = findViewById(R.id.AddFruitsActivityItemIdEditText);
+        AddFruitsActivityItemCutOffPriceEditText = findViewById(R.id.AddFruitsActivityItemCutOffPriceEditText);
+        AddFruitsActivityItemPriceEditText = findViewById(R.id.AddFruitsActivityItemPriceEditText);
+        AddFruitsActivityItemNameEditText = findViewById(R.id.AddFruitsActivityItemNameEditText);
+        AddFruitsActivityItemWeightEditText = findViewById(R.id.AddFruitsActivityItemWeightEditText);
+        AddFruitsActivityItemCategoryEditText = findViewById(R.id.AddFruitsActivityItemCategoryEditText);
+        AddFruitsActivityItemImageView = findViewById(R.id.AddFruitsActivityItemImageView);
+        AddFruitsActivityItemAddButton = findViewById(R.id.AddFruitsActivityItemAddButton);
+        AddFruitActivityRootView = findViewById(R.id.AddFruitActivityRootView);
 
         //initialize instance
         activity = this;
@@ -148,7 +148,8 @@ public class AddItemActivity extends AppCompatActivity {
                 itemName,
                 imageURI,
                 itemWeight,
-                itemCategory);
+                itemCategory,
+                false);
         if (item != null) {
             Log.d(TAG, "addItemToDatabase: " + new Gson().toJson(item));
             myDatabaseReference.getReference().child(ITEMS).child(category)

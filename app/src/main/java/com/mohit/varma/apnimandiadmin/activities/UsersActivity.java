@@ -32,7 +32,7 @@ public class UsersActivity extends AppCompatActivity {
     }
 
     public void initViews(){
-        usersActivityToolbar = (Toolbar) findViewById(R.id.usersActivityToolbar);
+        usersActivityToolbar = findViewById(R.id.usersActivityToolbar);
         activity = this;
     }
 

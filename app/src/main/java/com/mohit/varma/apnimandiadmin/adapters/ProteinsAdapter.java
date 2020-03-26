@@ -38,8 +38,8 @@ import java.util.List;
 
 import static com.mohit.varma.apnimandiadmin.utilities.Constant.ITEMS;
 
-public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.FruitItemAdapterViewHolder> {
-    public static final String TAG = FruitItemAdapter.class.getSimpleName();
+public class ProteinsAdapter extends RecyclerView.Adapter<ProteinsAdapter.ProteinsAdapterViewHolder> {
+    public static final String TAG = VegetableItemAdapter.class.getSimpleName();
     private Context context;
     private List<UItem> uItemList;
     private AlertDialog.Builder builder;
@@ -48,7 +48,7 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
     private View rootView;
     private IUpdateItemCallBack iUpdateItemCallBack;
 
-    public FruitItemAdapter(Context context, List<UItem> uItemList, DatabaseReference reference, View rootView, IUpdateItemCallBack iUpdateItemCallBack) {
+    public ProteinsAdapter(Context context, List<UItem> uItemList, DatabaseReference reference, View rootView, IUpdateItemCallBack iUpdateItemCallBack) {
         this.context = context;
         this.uItemList = uItemList;
         this.reference = reference;
@@ -59,13 +59,13 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
 
     @NonNull
     @Override
-    public FruitItemAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ProteinsAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.product_category_single_item_view, parent, false);
-        return new FruitItemAdapterViewHolder(view);
+        return new ProteinsAdapterViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FruitItemAdapterViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProteinsAdapterViewHolder holder, int position) {
 
         final UItem uItem = uItemList.get(position);
         holder.ProductCategoryItemIdTextView.setText("Item Id : " + uItem.getmItemId());
@@ -91,7 +91,7 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
             @Override
             public void onClick(View view) {
                 if (IsInternetConnectivity.isConnected(context)) {
-                    builder.setMessage("Are sure you to delete?");
+                    builder.setMessage("Are you to delete?");
                     builder.setCancelable(false);
                     builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
@@ -99,18 +99,18 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
                             if (alertDialog != null && alertDialog.isShowing()) {
                                 alertDialog.dismiss();
                             }
-                            reference.child(Constant.ITEMS).child(Constant.FRUIT).orderByChild("mItemId").equalTo(uItem.getmItemId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+                            StorageReference storageReference = firebaseStorage.getReferenceFromUrl(uItem.getmItemImage());
+                            storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                }
+                            });
+                            reference.child(Constant.ITEMS).child(Constant.PROTEIN).orderByChild("mItemId").equalTo(uItem.getmItemId()).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     for (DataSnapshot item : dataSnapshot.getChildren()) {
-                                        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-                                        StorageReference storageReference = firebaseStorage.getReferenceFromUrl(uItem.getmItemImage());
-                                        storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-
-                                            }
-                                        });
                                         item.getRef().removeValue(new DatabaseReference.CompletionListener() {
                                             @Override
                                             public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
@@ -125,7 +125,6 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
                                     ShowSnackBar.snackBar(context, rootView, context.getResources().getString(R.string.item_id_not_found));
                                 }
                             });
-
                             reference.child(Constant.ITEMS).child(Constant.MOST_POPULAR).orderByChild("mItemId").equalTo(uItemList.get(position).getmItemId()).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -166,12 +165,12 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
         holder.ProductCategoryItemUpdateButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (iUpdateItemCallBack != null) {
-                    if (IsInternetConnectivity.isConnected(context)) {
+                if (IsInternetConnectivity.isConnected(context)) {
+                    if (iUpdateItemCallBack != null) {
                         iUpdateItemCallBack.updateItem(uItem);
-                    } else {
-                        ShowSnackBar.snackBar(context, rootView, context.getResources().getString(R.string.please_check_internet_connectivity));
                     }
+                } else {
+                    ShowSnackBar.snackBar(context, rootView, context.getResources().getString(R.string.please_check_internet_connectivity));
                 }
             }
         });
@@ -200,6 +199,7 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
                 }
             }
         });
+
     }
 
     @Override
@@ -207,13 +207,13 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
         return uItemList.size();
     }
 
-    public class FruitItemAdapterViewHolder extends RecyclerView.ViewHolder {
+    public class ProteinsAdapterViewHolder extends RecyclerView.ViewHolder {
         private CardView ProductCategoryItemCardView;
         private ImageView ProductCategoryItemImageView;
         private TextView ProductCategoryItemIdTextView, ProductCategoryItemCutOffPriceTextView, ProductCategoryItemPriceTextView, ProductCategoryItemNameTextView, ProductCategoryItemWeightTextView, ProductCategoryItemCategoryTextView;
         private Button ProductCategoryItemDeleteButtonView, ProductCategoryItemUpdateButtonView;
 
-        public FruitItemAdapterViewHolder(@NonNull View itemView) {
+        public ProteinsAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
             ProductCategoryItemCardView = itemView.findViewById(R.id.ProductCategoryItemCardView);
             ProductCategoryItemImageView = itemView.findViewById(R.id.ProductCategoryItemImageView);
@@ -236,7 +236,7 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
     }
 
     public void setTrueToItemInPopularInFirebase(int position) {
-        reference.child(Constant.ITEMS).child(Constant.FRUIT).orderByChild("mItemId").equalTo(uItemList.get(position).getmItemId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.child(Constant.ITEMS).child(Constant.PROTEIN).orderByChild("mItemId").equalTo(uItemList.get(position).getmItemId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
@@ -252,7 +252,7 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
     }
 
     public void setFalseToItemInPopularInFirebase(int position) {
-        reference.child(Constant.ITEMS).child(Constant.FRUIT).orderByChild("mItemId").equalTo(uItemList.get(position).getmItemId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.child(Constant.ITEMS).child(Constant.PROTEIN).orderByChild("mItemId").equalTo(uItemList.get(position).getmItemId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
@@ -287,6 +287,14 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+                    StorageReference storageReference = firebaseStorage.getReferenceFromUrl(uItemList.get(position).getmItemImage());
+                    storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+                    });
                     item.getRef().removeValue(new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {

@@ -14,17 +14,19 @@ import com.mohit.varma.apnimandiadmin.utilities.IsInternetConnectivity;
 import com.mohit.varma.apnimandiadmin.utilities.ShowSnackBar;
 
 import java.util.Objects;
-import java.util.function.Consumer;
 
+import static com.mohit.varma.apnimandiadmin.utilities.Constant.BACKING;
 import static com.mohit.varma.apnimandiadmin.utilities.Constant.FRUIT;
 import static com.mohit.varma.apnimandiadmin.utilities.Constant.ITEM_KEY;
+import static com.mohit.varma.apnimandiadmin.utilities.Constant.PROTEIN;
+import static com.mohit.varma.apnimandiadmin.utilities.Constant.SNACKS;
 import static com.mohit.varma.apnimandiadmin.utilities.Constant.VEGETABLE;
 
-public class ProductCategoryActivity extends AppCompatActivity {
-
+public class ProductCategoryActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final String TAG = ProductCategoryActivity.class.getSimpleName();
     private Toolbar productCategoryActivityToolbar;
     private Context activity;
-    private CardView ProductCategoryActivityFruitsCardView, ProductCategoryActivityVegetablesCardView;
+    private CardView ProductCategoryActivityFruitsCardView, ProductCategoryActivityVegetablesCardView, ProductCategoryActivitySnacksCardView, ProductCategoryActivityProteinCardView, ProductCategoryActivityBackingCardView;
     private Intent intent;
     private View ProductCategoryActivityRootView;
 
@@ -32,86 +34,149 @@ public class ProductCategoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_category);
-
         initViews();
-
-        //set consumers
-        toolbarConsumer.accept(productCategoryActivityToolbar);
-
+        setToolbar();
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
-        ProductCategoryFruitsConsumer.accept(ProductCategoryActivityFruitsCardView);
-        ProductCategoryVegetablesConsumer.accept(ProductCategoryActivityVegetablesCardView);
-
+        setListener();
         productCategoryActivityToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
-
     }
 
+    /**
+     * initialize activity views
+     */
     public void initViews() {
-        productCategoryActivityToolbar = (Toolbar) findViewById(R.id.productCategoryActivityToolbar);
-        ProductCategoryActivityFruitsCardView = (CardView) findViewById(R.id.ProductCategoryActivityFruitsCardView);
-        ProductCategoryActivityVegetablesCardView = (CardView) findViewById(R.id.ProductCategoryActivityVegetablesCardView);
-        ProductCategoryActivityRootView = (View) findViewById(R.id.ProductCategoryActivityRootView);
+        productCategoryActivityToolbar = findViewById(R.id.productCategoryActivityToolbar);
+        ProductCategoryActivityFruitsCardView = findViewById(R.id.ProductCategoryActivityFruitsCardView);
+        ProductCategoryActivityVegetablesCardView = findViewById(R.id.ProductCategoryActivityVegetablesCardView);
+        ProductCategoryActivitySnacksCardView = findViewById(R.id.ProductCategoryActivitySnacksCardView);
+        ProductCategoryActivityProteinCardView = findViewById(R.id.ProductCategoryActivityProteinCardView);
+        ProductCategoryActivityBackingCardView = findViewById(R.id.ProductCategoryActivityBackingCardView);
+        ProductCategoryActivityRootView = findViewById(R.id.ProductCategoryActivityRootView);
         this.activity = this;
     }
 
-    Consumer<Toolbar> toolbarConsumer = productCategoryActivityToolbar -> {
+    /**
+     * set onclick listener to CardView
+     */
+    public void setListener() {
+        ProductCategoryActivityFruitsCardView.setOnClickListener(this);
+        ProductCategoryActivityVegetablesCardView.setOnClickListener(this);
+        ProductCategoryActivitySnacksCardView.setOnClickListener(this);
+        ProductCategoryActivityProteinCardView.setOnClickListener(this);
+        ProductCategoryActivityBackingCardView.setOnClickListener(this);
+    }
+
+    /**
+     * set toolbar
+     */
+    public void setToolbar() {
         if (productCategoryActivityToolbar != null && activity != null) {
             setSupportActionBar(productCategoryActivityToolbar);
             Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             productCategoryActivityToolbar.setTitle(activity.getResources().getString(R.string.product_category));
         }
-    };
+    }
 
-
-    Consumer<CardView> ProductCategoryVegetablesConsumer = ProductCategoryVegetables -> {
-        ProductCategoryVegetables.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startAddVegetablesActivityConsumer.accept(activity);
-            }
-        });
-    };
-
-    Consumer<CardView> ProductCategoryFruitsConsumer = ProductCategoryFruits -> {
-        ProductCategoryFruits.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startAddFruitsActivityConsumer.accept(activity);
-            }
-        });
-    };
-
-    Consumer<Context> startAddFruitsActivityConsumer = context -> {
+    /**
+     * @param activity
+     */
+    public void startAddFruitsActivity(Context activity) {
         if (IsInternetConnectivity.isConnected(activity)) {
             intent = new Intent(activity, FruitsActivity.class);
-            intent.putExtra(ITEM_KEY,FRUIT);
-            context.startActivity(intent);
+            intent.putExtra(ITEM_KEY, FRUIT);
+            activity.startActivity(intent);
         } else {
-            ShowSnackBar.snackBar(activity, ProductCategoryActivityRootView,activity.getResources().getString(R.string.please_check_internet_connectivity));
+            ShowSnackBar.snackBar(activity, ProductCategoryActivityRootView, activity.getResources().getString(R.string.please_check_internet_connectivity));
         }
-    };
+    }
 
-    Consumer<Context> startAddVegetablesActivityConsumer = context -> {
+    /**
+     * @param activity
+     */
+    public void startAddVegetablesActivity(Context activity) {
         if (IsInternetConnectivity.isConnected(activity)) {
             intent = new Intent(activity, VegetablesActivity.class);
-            intent.putExtra(ITEM_KEY,VEGETABLE);
-            context.startActivity(intent);
+            intent.putExtra(ITEM_KEY, VEGETABLE);
+            activity.startActivity(intent);
         } else {
-            ShowSnackBar.snackBar(activity, ProductCategoryActivityRootView,activity.getResources().getString(R.string.please_check_internet_connectivity));
+            ShowSnackBar.snackBar(activity, ProductCategoryActivityRootView, activity.getResources().getString(R.string.please_check_internet_connectivity));
         }
-    };
+    }
+
+    /**
+     * @param activity
+     */
+    public void startAddSnacksActivity(Context activity) {
+        if (IsInternetConnectivity.isConnected(activity)) {
+            intent = new Intent(activity, SnacksActivity.class);
+            intent.putExtra(ITEM_KEY, SNACKS);
+            activity.startActivity(intent);
+        } else {
+            ShowSnackBar.snackBar(activity, ProductCategoryActivityRootView, activity.getResources().getString(R.string.please_check_internet_connectivity));
+        }
+    }
+
+    /**
+     * @param activity
+     */
+    public void startAddProteinActivity(Context activity) {
+        if (IsInternetConnectivity.isConnected(activity)) {
+            intent = new Intent(activity, ProteinsActivity.class);
+            intent.putExtra(ITEM_KEY, PROTEIN);
+            activity.startActivity(intent);
+        } else {
+            ShowSnackBar.snackBar(activity, ProductCategoryActivityRootView, activity.getResources().getString(R.string.please_check_internet_connectivity));
+        }
+    }
+
+    /**
+     * @param activity
+     */
+    public void startAddBackingActivity(Context activity) {
+        if (IsInternetConnectivity.isConnected(activity)) {
+            intent = new Intent(activity, BackingsActivity.class);
+            intent.putExtra(ITEM_KEY, BACKING);
+            activity.startActivity(intent);
+        } else {
+            ShowSnackBar.snackBar(activity, ProductCategoryActivityRootView, activity.getResources().getString(R.string.please_check_internet_connectivity));
+        }
+    }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    /**
+     * @param view
+     */
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id) {
+            case R.id.ProductCategoryActivityFruitsCardView:
+                startAddFruitsActivity(activity);
+                break;
+            case R.id.ProductCategoryActivityVegetablesCardView:
+                startAddVegetablesActivity(activity);
+                break;
+            case R.id.ProductCategoryActivitySnacksCardView:
+                startAddSnacksActivity(activity);
+                break;
+            case R.id.ProductCategoryActivityProteinCardView:
+                startAddProteinActivity(activity);
+                break;
+            case R.id.ProductCategoryActivityBackingCardView:
+                startAddBackingActivity(activity);
+                break;
+        }
     }
 }

@@ -47,7 +47,6 @@ public class VegetablesActivity extends AppCompatActivity {
     public static final String TAG = FruitsActivity.class.getSimpleName();
     private Toolbar VegetablesActivityToolbar;
     private EditText UpdateItemAlertDialogLayoutItemCutOffPriceEditText, UpdateItemAlertDialogLayoutItemPriceEditText;
-    private Button UpdateItemAlertDialogLayoutItemUpdateButton;
     private RecyclerView VegetablesActivityRecyclerView;
     private TextView VegetablesActivityNoItemAddedYetTextView;
     private FloatingActionButton VegetablesActivityFab;
@@ -132,11 +131,11 @@ public class VegetablesActivity extends AppCompatActivity {
     }
 
     public void initViews() {
-        VegetablesActivityToolbar = (Toolbar) findViewById(R.id.VegetablesActivityToolbar);
-        VegetablesActivityRecyclerView = (RecyclerView) findViewById(R.id.VegetablesActivityRecyclerView);
-        VegetablesActivityFab = (FloatingActionButton) findViewById(R.id.VegetablesActivityFab);
-        VegetablesActivityNoItemAddedYetTextView = (TextView) findViewById(R.id.VegetablesActivityNoItemAddedYetTextView);
-        VegetablesActivityRootView = (View) findViewById(R.id.VegetablesActivityRootView);
+        VegetablesActivityToolbar = findViewById(R.id.VegetablesActivityToolbar);
+        VegetablesActivityRecyclerView = findViewById(R.id.VegetablesActivityRecyclerView);
+        VegetablesActivityFab = findViewById(R.id.VegetablesActivityFab);
+        VegetablesActivityNoItemAddedYetTextView = findViewById(R.id.VegetablesActivityNoItemAddedYetTextView);
+        VegetablesActivityRootView = findViewById(R.id.VegetablesActivityRootView);
         this.activity = this;
         databaseReference = new MyDatabaseReference().getReference();
         progressDialog = new ProgressDialog(activity);
@@ -181,7 +180,7 @@ public class VegetablesActivity extends AppCompatActivity {
         if (uItemList != null && uItemList.size() > 0) {
             VegetablesActivityRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
             VegetablesActivityRecyclerView.setHasFixedSize(true);
-            adapter = new VegetableItemAdapter(activity, uItemList, databaseReference, VegetablesActivityRecyclerView, new IUpdateItemCallBack() {
+            adapter = new VegetableItemAdapter(activity, uItemList, databaseReference, VegetablesActivityRootView, new IUpdateItemCallBack() {
                 @Override
                 public void updateItem(UItem uItem) {
                     uItemUpdated = uItem;
@@ -197,14 +196,16 @@ public class VegetablesActivity extends AppCompatActivity {
         builder.setCancelable(false);
         alertView = LayoutInflater.from(activity).inflate(R.layout.update_item_aleart_dialog_layout, null, false);
         builder.setView(alertView);
-        UpdateItemAlertDialogLayoutItemCutOffPriceEditText = (EditText) alertView.findViewById(R.id.UpdateItemAlertDialogLayoutItemCutOffPriceEditText);
-        UpdateItemAlertDialogLayoutItemPriceEditText = (EditText) alertView.findViewById(R.id.UpdateItemAlertDialogLayoutItemPriceEditText);
-        UpdateItemAlertDialogLayoutItemUpdateButton = (Button) alertView.findViewById(R.id.UpdateItemAlertDialogLayoutItemUpdateButton);
+        UpdateItemAlertDialogLayoutItemCutOffPriceEditText = alertView.findViewById(R.id.UpdateItemAlertDialogLayoutItemCutOffPriceEditText);
+        UpdateItemAlertDialogLayoutItemPriceEditText = alertView.findViewById(R.id.UpdateItemAlertDialogLayoutItemPriceEditText);
+        Button UpdateItemAlertDialogLayoutItemUpdateButton = alertView.findViewById(R.id.UpdateItemAlertDialogLayoutItemUpdateButton);
         UpdateItemAlertDialogLayoutItemUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(VegetablesActivityRecyclerView.getWindowToken(), 0);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(VegetablesActivityRootView.getWindowToken(), 0);
+                }
                 updateItem();
             }
         });
@@ -222,7 +223,7 @@ public class VegetablesActivity extends AppCompatActivity {
                 if (uItemUpdated != null) {
                     UItem uItem = new UItem(uItemUpdated.getmItemId(), Integer.parseInt(updatedItemCutOffPrice),
                             Integer.parseInt(updatedItemPrice), uItemUpdated.getmItemName(),
-                            uItemUpdated.getmItemImage(), uItemUpdated.getmItemWeight(), uItemUpdated.getmItemCategory());
+                            uItemUpdated.getmItemImage(), uItemUpdated.getmItemWeight(), uItemUpdated.getmItemCategory(), uItemUpdated.isPopular());
                     if (uItem != null) {
                         databaseReference.child(Constant.ITEMS).child(Constant.VEGETABLE).orderByChild("mItemId").equalTo(uItem.getmItemId()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override

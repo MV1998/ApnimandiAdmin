@@ -8,12 +8,13 @@ public class UItem {
     private String mItemImage;
     private String mItemWeight;
     private String mItemCategory;
+    private boolean isPopular;
 
     public UItem() {
 
     }
 
-    public UItem(int mItemId, int mItemCutOffPrice, int mItemPrice, String mItemName, String mItemImage, String mItemWeight, String mItemCategory) {
+    public UItem(int mItemId, int mItemCutOffPrice, int mItemPrice, String mItemName, String mItemImage, String mItemWeight, String mItemCategory,boolean isPopular) {
         this.mItemId = mItemId;
         this.mItemCutOffPrice = mItemCutOffPrice;
         this.mItemPrice = mItemPrice;
@@ -21,6 +22,7 @@ public class UItem {
         this.mItemImage = mItemImage;
         this.mItemWeight = mItemWeight;
         this.mItemCategory = mItemCategory;
+        this.isPopular = isPopular;
     }
 
     public int getmItemId() {
@@ -77,5 +79,13 @@ public class UItem {
 
     public void setmItemImage(String mItemImage) {
         this.mItemImage = mItemImage;
+    }
+
+    public boolean isPopular() {
+        return isPopular;
+    }
+
+    public void setPopular(boolean popular) {
+        isPopular = popular;
     }
 }
