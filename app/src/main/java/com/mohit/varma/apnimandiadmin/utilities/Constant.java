@@ -1,5 +1,7 @@
 package com.mohit.varma.apnimandiadmin.utilities;
 
+import java.util.UUID;
+
 public class Constant {
     //mime type for image : intent
     public static final String IMAGE_MIME_TYPE = "image/*";
@@ -14,4 +16,13 @@ public class Constant {
     public static final String ITEM_KEY = "item_key";
     public static final String MOST_POPULAR = "MostPopularItems";
     public static final String UITEM_KEY = "uitem";
+
+    public static int generateUniqueId() {
+        UUID idOne = UUID.randomUUID();
+        String str=""+idOne;
+        int uid=str.hashCode();
+        String filterStr=""+uid;
+        str=filterStr.replaceAll("-", "");
+        return Integer.parseInt(str);
+    }
 }

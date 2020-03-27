@@ -287,14 +287,6 @@ public class ProteinsAdapter extends RecyclerView.Adapter<ProteinsAdapter.Protei
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-                    StorageReference storageReference = firebaseStorage.getReferenceFromUrl(uItemList.get(position).getmItemImage());
-                    storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-
-                        }
-                    });
                     item.getRef().removeValue(new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {

@@ -3,10 +3,12 @@ package com.mohit.varma.apnimandiadmin.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -37,9 +39,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 
-import static com.mohit.varma.apnimandiadmin.utilities.Constant.IMAGE_MIME_TYPE;
 import static com.mohit.varma.apnimandiadmin.utilities.Constant.ITEMS;
 import static com.mohit.varma.apnimandiadmin.utilities.Constant.ITEM_KEY;
+import static com.mohit.varma.apnimandiadmin.utilities.Constant.generateUniqueId;
 
 public class AddItemActivity extends AppCompatActivity {
     public static final String TAG = AddItemActivity.class.getSimpleName();
@@ -50,12 +52,13 @@ public class AddItemActivity extends AppCompatActivity {
             AddFruitsActivityItemPriceEditText, AddFruitsActivityItemNameEditText,
             AddFruitsActivityItemWeightEditText, AddFruitsActivityItemCategoryEditText;
     private View AddFruitActivityRootView;
-    private String imageURI = null, itemId, itemCutOffPrice, itemPrice, itemName, itemWeight, itemCategory;
+    private String imageURI = null, itemId, itemCutOffPrice, itemPrice, itemName, itemWeight, itemCategory, imageName = " ";
     private Context activity;
     private Bitmap bitmap = null;
     private MyDatabaseReference myDatabaseReference;
     private ProgressDialog progressDialog;
     private String category;
+    private StorageReference mountainImagesRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,8 @@ public class AddItemActivity extends AppCompatActivity {
                 category = getIntent().getStringExtra(ITEM_KEY);
             }
         }
+        AddFruitsActivityItemIdEditText.setClickable(false);
+        AddFruitsActivityItemIdEditText.setText("" + generateUniqueId());
 
         AddFruitsActivityItemAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,9 +102,7 @@ public class AddItemActivity extends AppCompatActivity {
         });
 
         AddFruitsActivityItemImageView.setOnClickListener(view -> {
-            Intent intent = new Intent();
-            intent.setType(IMAGE_MIME_TYPE);
-            intent.setAction(Intent.ACTION_GET_CONTENT);
+            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(Intent.createChooser(intent,
                     activity.getResources().getString(R.string.select_picture)), RESULT_LOAD_IMAGE);
         });
@@ -128,12 +131,11 @@ public class AddItemActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             try {
-                Log.d("FruitsActivity", "onActivityResult: ");
                 final Uri imageUri = data.getData();
                 assert imageUri != null;
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                imageName = getPath(activity, imageUri).substring(getPath(activity, imageUri).lastIndexOf("/") + 1);
                 bitmap = BitmapFactory.decodeStream(imageStream);
-                //new BackgroundServiceForGenerateBase64StringOfImage(activity, base64String -> imageString = base64String).execute(bitmap);
                 setImageToGlide(bitmap, AddFruitsActivityItemImageView);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -205,7 +207,11 @@ public class AddItemActivity extends AppCompatActivity {
 
     private void uploadFile(Bitmap bitmap) {
         showProgressDialog();
-        StorageReference mountainImagesRef = myDatabaseReference.getStorageReference().child(category+"/" + new Timestamp(System.currentTimeMillis()).getTime() + ".jpg");
+        if (imageName != null && !imageName.isEmpty()) {
+            mountainImagesRef = myDatabaseReference.getStorageReference().child(category + "/" + imageName);
+        } else {
+            mountainImagesRef = myDatabaseReference.getStorageReference().child(category + "/" + new Timestamp(System.currentTimeMillis()).getTime() + ".jpg");
+        }
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
         byte[] data = byteArrayOutputStream.toByteArray();
@@ -248,5 +254,22 @@ public class AddItemActivity extends AppCompatActivity {
                 progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
             }
         });
+    }
+
+    public static String getPath(Context context, Uri uri) {
+        String result = null;
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = context.getContentResolver().query(uri, proj, null, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                int column_index = cursor.getColumnIndexOrThrow(proj[0]);
+                result = cursor.getString(column_index);
+            }
+            cursor.close();
+        }
+        if (result == null) {
+            result = "Not found";
+        }
+        return result;
     }
 }

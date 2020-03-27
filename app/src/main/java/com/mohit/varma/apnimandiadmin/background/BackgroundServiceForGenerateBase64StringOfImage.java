@@ -11,6 +11,10 @@ import com.mohit.varma.apnimandiadmin.interfaces.Base64CallBack;
 
 import java.io.ByteArrayOutputStream;
 
+/**
+ * At this time this class is not in use but might be use when needed.
+ */
+
 public class BackgroundServiceForGenerateBase64StringOfImage extends AsyncTask<Bitmap,Void,String> {
     public static final String TAG = BackgroundServiceForGenerateBase64StringOfImage.class.getSimpleName();
     private Context context;
