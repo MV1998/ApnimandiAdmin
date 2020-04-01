@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.UtilsActivity"
+    android:focusableInTouchMode="true"
+    android:id="@+id/UtilsActivityRootView">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/UtilsActivityToolbar"
+        style="?actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        app:navigationIcon="@drawable/arrow_left_black_24dp"
+        app:title="@string/delivery_fee"
+        app:titleTextColor="@color/black"></androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/UtilsActivityToolbar"
+        android:padding="@dimen/_10sdp"
+        android:background="@color/gray_color">
+
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            xmlns:app="http://schemas.android.com/tools"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:background="#e0e0e0"
+            android:clickable="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            card_view:cardCornerRadius="5dp"
+            card_view:cardUseCompatPadding="true"
+            app:cardElevation="@dimen/_10sdp"
+            app:ignore="NamespaceTypo"
+            card_view:contentPadding="@dimen/_5sdp"
+            android:id="@+id/UtilsActivityCardView">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_5sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/current_delivery_fee"
+                        android:textColor="@color/black"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="@dimen/_12sdp"></TextView>
+
+                    <TextView
+                        android:id="@+id/UtilsActivityDeliveryFeeTexView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="\u20B9"
+                        android:textColor="@color/black"
+                        android:layout_alignParentRight="true"
+                        android:textSize="@dimen/_14sdp"></TextView>
+
+                </RelativeLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/numberID"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:counterEnabled="true"
+                    android:hint="@string/delivery_fee"
+                    app:counterMaxLength="10"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/UtilsActivityEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number">
+
+                    </com.google.android.material.textfield.TextInputEditText>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/UtilsActivityButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:text="@string/add_delivery_fee"
+                    android:insetLeft="4dp"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                </com.google.android.material.button.MaterialButton>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</RelativeLayout>

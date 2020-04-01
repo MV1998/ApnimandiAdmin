@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.BackingsActivity"></activity>
+        <activity android:name=".activities.UtilsActivity"></activity>
+        <activity android:name=".activities.BackingsActivity" />
         <activity android:name=".activities.ProteinsActivity" />
         <activity android:name=".activities.SnacksActivity" />
         <activity android:name=".activities.AddItemActivity" />

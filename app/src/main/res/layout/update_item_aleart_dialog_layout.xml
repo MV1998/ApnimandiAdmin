@@ -3,37 +3,96 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="@dimen/_15sdp"
-    android:background="#A569BD">
+    android:padding="@dimen/_5sdp"
+    android:background="@color/gray_color">
 
-    <EditText
-        android:id="@+id/UpdateItemAlertDialogLayoutItemCutOffPriceEditText"
+    <androidx.cardview.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:app="http://schemas.android.com/tools"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:background="#e0e0e0"
+        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:inputType="numberDecimal"
-        android:maxLength="4"
-        android:hint="Item Cut Off Price"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"></EditText>
+        android:focusable="true"
+        card_view:cardCornerRadius="5dp"
+        card_view:cardUseCompatPadding="true"
+        app:cardElevation="@dimen/_10sdp"
+        app:ignore="NamespaceTypo"
+        card_view:contentPadding="@dimen/_5sdp"
+        android:id="@+id/UtilsActivityCardView">
 
-    <EditText
-        android:id="@+id/UpdateItemAlertDialogLayoutItemPriceEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:maxLength="4"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:hint="Item Price"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"></EditText>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/UpdateItemAlertDialogLayoutItemUpdateButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/update"
-        android:textAllCaps="false"
-        android:layout_gravity="center"></Button>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/update_item"
+                    android:textColor="@color/black"
+                    android:layout_alignParentLeft="true"
+                    android:textSize="@dimen/_12sdp"></TextView>
+
+            </RelativeLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:counterEnabled="true"
+                android:hint="@string/item_cutOffPrice"
+                app:counterMaxLength="10"
+                android:layout_marginTop="@dimen/_5sdp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/UpdateItemAlertDialogLayoutMaterialCutOffPriceEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:counterEnabled="true"
+                android:hint="@string/item_price"
+                app:counterMaxLength="10"
+                android:layout_marginTop="@dimen/_5sdp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/UpdateItemAlertDialogLayoutMaterialPriceEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/UpdateItemAlertDialogLayoutMaterialUpdateButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button"
+                android:text="@string/update"
+                android:insetLeft="4dp"
+                android:layout_marginTop="@dimen/_5sdp">
+
+            </com.google.android.material.button.MaterialButton>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

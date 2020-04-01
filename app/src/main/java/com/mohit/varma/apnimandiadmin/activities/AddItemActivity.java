@@ -11,12 +11,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -25,6 +24,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -32,6 +33,7 @@ import com.google.gson.Gson;
 import com.mohit.varma.apnimandiadmin.R;
 import com.mohit.varma.apnimandiadmin.firebase.MyDatabaseReference;
 import com.mohit.varma.apnimandiadmin.model.UItem;
+import com.mohit.varma.apnimandiadmin.model.UItemDescription;
 import com.mohit.varma.apnimandiadmin.utilities.ShowSnackBar;
 
 import java.io.ByteArrayOutputStream;
@@ -46,19 +48,21 @@ import static com.mohit.varma.apnimandiadmin.utilities.Constant.generateUniqueId
 public class AddItemActivity extends AppCompatActivity {
     public static final String TAG = AddItemActivity.class.getSimpleName();
     private static final int RESULT_LOAD_IMAGE = 100;
-    private Button AddFruitsActivityItemAddButton;
-    private ImageView AddFruitsActivityItemImageView;
-    private EditText AddFruitsActivityItemIdEditText, AddFruitsActivityItemCutOffPriceEditText,
-            AddFruitsActivityItemPriceEditText, AddFruitsActivityItemNameEditText,
-            AddFruitsActivityItemWeightEditText, AddFruitsActivityItemCategoryEditText;
-    private View AddFruitActivityRootView;
-    private String imageURI = null, itemId, itemCutOffPrice, itemPrice, itemName, itemWeight, itemCategory, imageName = " ";
+    private TextInputEditText AddItemActivityItemIDEditText,AddItemActivityItemPriceEditText,AddItemActivityItemCutOffPriceEditText,
+            AddItemActivityItemNameEditText,AddItemActivityItemWeightEditText,AddItemActivityItemCategoryEditText,
+            AddItemActivityItemDescriptionEditText,AddItemActivityItemCaloriesEditText,AddItemActivityItemFatEditText,AddItemActivityItemProteinEditText;
+    private MaterialButton AddItemActivityAddItemButton;
+    private Toolbar AddItemActivityToolbar;
+    private ImageView AddItemActivityItemImageView;
+    private View AddItemActivityRootView;
     private Context activity;
     private Bitmap bitmap = null;
-    private MyDatabaseReference myDatabaseReference;
     private ProgressDialog progressDialog;
-    private String category;
     private StorageReference mountainImagesRef;
+    private MyDatabaseReference myDatabaseReference;
+    private String imageURI = null, itemId, itemCutOffPrice, itemPrice, itemName, itemWeight, itemCategory, imageName = " ",
+            itemDescription, itemCalories, itemFat, itemProtein,category;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,54 +76,69 @@ public class AddItemActivity extends AppCompatActivity {
                 category = getIntent().getStringExtra(ITEM_KEY);
             }
         }
-        AddFruitsActivityItemIdEditText.setClickable(false);
-        AddFruitsActivityItemIdEditText.setText("" + generateUniqueId());
+        AddItemActivityItemIDEditText.setClickable(false);
+        AddItemActivityItemIDEditText.setText("" + generateUniqueId());
 
-        AddFruitsActivityItemAddButton.setOnClickListener(new View.OnClickListener() {
+        AddItemActivityAddItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onClick: ");
-
-                itemId = AddFruitsActivityItemIdEditText.getText().toString();
-                itemCutOffPrice = AddFruitsActivityItemCutOffPriceEditText.getText().toString();
-                itemPrice = AddFruitsActivityItemPriceEditText.getText().toString();
-                itemName = AddFruitsActivityItemNameEditText.getText().toString();
-                itemWeight = AddFruitsActivityItemWeightEditText.getText().toString();
-                itemCategory = AddFruitsActivityItemCategoryEditText.getText().toString();
+                itemId = AddItemActivityItemIDEditText.getText().toString();
+                itemCutOffPrice = AddItemActivityItemCutOffPriceEditText.getText().toString();
+                itemPrice = AddItemActivityItemPriceEditText.getText().toString();
+                itemName = AddItemActivityItemNameEditText.getText().toString();
+                itemWeight = AddItemActivityItemWeightEditText.getText().toString();
+                itemCategory = AddItemActivityItemCategoryEditText.getText().toString();
+                itemDescription = AddItemActivityItemDescriptionEditText.getText().toString();
+                itemCalories = AddItemActivityItemCaloriesEditText.getText().toString();
+                itemFat = AddItemActivityItemFatEditText.getText().toString();
+                itemProtein = AddItemActivityItemProteinEditText.getText().toString();
 
                 if (!itemId.isEmpty() && !itemCutOffPrice.isEmpty() && !itemPrice.isEmpty()
-                        && !itemName.isEmpty() && !itemWeight.isEmpty() && !itemCategory.isEmpty()) {
+                        && !itemName.isEmpty() && !itemWeight.isEmpty() && !itemCategory.isEmpty() && !itemDescription.isEmpty()
+                        && !itemCalories.isEmpty() && !itemFat.isEmpty() && !itemProtein.isEmpty()) {
                     Log.d(TAG, "onClick: ");
                     if (bitmap != null) {
                         uploadFile(bitmap);
                     } else {
-                        ShowSnackBar.snackBar(activity, AddFruitActivityRootView, activity.getResources().getString(R.string.please_select_image));
+                        ShowSnackBar.snackBar(activity, AddItemActivityRootView, activity.getResources().getString(R.string.please_select_image));
                     }
                 } else {
-                    ShowSnackBar.snackBar(activity, AddFruitActivityRootView, activity.getResources().getString(R.string.all_fields_are_mandetory));
+                    ShowSnackBar.snackBar(activity, AddItemActivityRootView, activity.getResources().getString(R.string.all_fields_are_mandetory));
                 }
             }
         });
 
-        AddFruitsActivityItemImageView.setOnClickListener(view -> {
+        AddItemActivityItemImageView.setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(Intent.createChooser(intent,
                     activity.getResources().getString(R.string.select_picture)), RESULT_LOAD_IMAGE);
         });
 
+        AddItemActivityToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
     }
 
     public void initViews() {
-        AddFruitsActivityItemIdEditText = findViewById(R.id.AddFruitsActivityItemIdEditText);
-        AddFruitsActivityItemCutOffPriceEditText = findViewById(R.id.AddFruitsActivityItemCutOffPriceEditText);
-        AddFruitsActivityItemPriceEditText = findViewById(R.id.AddFruitsActivityItemPriceEditText);
-        AddFruitsActivityItemNameEditText = findViewById(R.id.AddFruitsActivityItemNameEditText);
-        AddFruitsActivityItemWeightEditText = findViewById(R.id.AddFruitsActivityItemWeightEditText);
-        AddFruitsActivityItemCategoryEditText = findViewById(R.id.AddFruitsActivityItemCategoryEditText);
-        AddFruitsActivityItemImageView = findViewById(R.id.AddFruitsActivityItemImageView);
-        AddFruitsActivityItemAddButton = findViewById(R.id.AddFruitsActivityItemAddButton);
-        AddFruitActivityRootView = findViewById(R.id.AddFruitActivityRootView);
-
+        AddItemActivityItemImageView = findViewById(R.id.AddItemActivityItemImageView);
+        AddItemActivityRootView = findViewById(R.id.AddItemActivityRootView);
+        //Material EditText and Button initialized
+        AddItemActivityItemIDEditText = (TextInputEditText) findViewById(R.id.AddItemActivityItemIDEditText);
+        AddItemActivityItemPriceEditText = (TextInputEditText) findViewById(R.id.AddItemActivityItemPriceEditText);
+        AddItemActivityItemCutOffPriceEditText = (TextInputEditText) findViewById(R.id.AddItemActivityItemCutOffPriceEditText);
+        AddItemActivityItemNameEditText = (TextInputEditText) findViewById(R.id.AddItemActivityItemNameEditText);
+        AddItemActivityItemWeightEditText = (TextInputEditText) findViewById(R.id.AddItemActivityItemWeightEditText);
+        AddItemActivityItemCategoryEditText = (TextInputEditText) findViewById(R.id.AddItemActivityItemCategoryEditText);
+        AddItemActivityItemDescriptionEditText = (TextInputEditText) findViewById(R.id.AddItemActivityItemDescriptionEditText);
+        AddItemActivityItemCaloriesEditText = (TextInputEditText) findViewById(R.id.AddItemActivityItemCaloriesEditText);
+        AddItemActivityItemFatEditText = (TextInputEditText) findViewById(R.id.AddItemActivityItemFatEditText);
+        AddItemActivityItemProteinEditText = (TextInputEditText) findViewById(R.id.AddItemActivityItemProteinEditText);
+        AddItemActivityAddItemButton = (MaterialButton) findViewById(R.id.AddItemActivityAddItemButton);
+        AddItemActivityToolbar = (Toolbar) findViewById(R.id.AddItemActivityToolbar);
         //initialize instance
         activity = this;
         myDatabaseReference = new MyDatabaseReference();
@@ -136,7 +155,7 @@ public class AddItemActivity extends AppCompatActivity {
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 imageName = getPath(activity, imageUri).substring(getPath(activity, imageUri).lastIndexOf("/") + 1);
                 bitmap = BitmapFactory.decodeStream(imageStream);
-                setImageToGlide(bitmap, AddFruitsActivityItemImageView);
+                setImageToGlide(bitmap, AddItemActivityItemImageView);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -151,7 +170,7 @@ public class AddItemActivity extends AppCompatActivity {
                 imageURI,
                 itemWeight,
                 itemCategory,
-                false);
+                false,new UItemDescription(itemDescription,itemCalories,itemFat,itemProtein));
         if (item != null) {
             Log.d(TAG, "addItemToDatabase: " + new Gson().toJson(item));
             myDatabaseReference.getReference().child(ITEMS).child(category)

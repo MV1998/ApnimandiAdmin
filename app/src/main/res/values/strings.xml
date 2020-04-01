@@ -22,4 +22,24 @@
     <string name="protein">Protein</string>
     <string name="backing">Backing</string>
     <string name="item_removed_from_most_popular_section">Item successfully removed from most popular section.</string>
+    <string name="Utils">Utils</string>
+    <string name="delivery_fee">Delivery Fee</string>
+    <string name="add_delivery_fee">Apply Fee</string>
+    <string name="delivery_fee_added">Delivery Fee Applied.</string>
+    <string name="current_delivery_fee">Current Delivery Fee :</string>
+    <string name="item_description_txt">Add Item Description</string>
+    <string name="item_description">Item Description</string>
+    <string name="item_calories">Item Calories</string>
+    <string name="item_fat">Item Fat</string>
+    <string name="item_protein">Item Protein</string>
+    <string name="item_id">Item Id</string>
+    <string name="item_cutOffPrice">Item Cut Off Price</string>
+    <string name="item_price">Item Price</string>
+    <string name="item_name">Item Name</string>
+    <string name="item_weight">Item Weight With gm/kg</string>
+    <string name="item_category">Item Category</string>
+    <string name="item_details">Add Item Details</string>
+    <string name="add_item">Add Item</string>
+    <string name="item_delete">Delete</string>
+    <string name="update_item">"Update Item : "</string>
 </resources>

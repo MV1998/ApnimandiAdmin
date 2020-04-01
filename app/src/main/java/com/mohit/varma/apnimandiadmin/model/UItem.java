@@ -1,5 +1,7 @@
 package com.mohit.varma.apnimandiadmin.model;
 
+import java.io.Serializable;
+
 public class UItem {
     private int mItemId;
     private int mItemCutOffPrice;
@@ -9,12 +11,11 @@ public class UItem {
     private String mItemWeight;
     private String mItemCategory;
     private boolean isPopular;
+    private UItemDescription uItemDescription;
 
-    public UItem() {
+    public UItem() {}
 
-    }
-
-    public UItem(int mItemId, int mItemCutOffPrice, int mItemPrice, String mItemName, String mItemImage, String mItemWeight, String mItemCategory,boolean isPopular) {
+    public UItem(int mItemId, int mItemCutOffPrice, int mItemPrice, String mItemName, String mItemImage, String mItemWeight, String mItemCategory,boolean isPopular,UItemDescription uItemDescription) {
         this.mItemId = mItemId;
         this.mItemCutOffPrice = mItemCutOffPrice;
         this.mItemPrice = mItemPrice;
@@ -23,6 +24,7 @@ public class UItem {
         this.mItemWeight = mItemWeight;
         this.mItemCategory = mItemCategory;
         this.isPopular = isPopular;
+        this.uItemDescription = uItemDescription;
     }
 
     public int getmItemId() {
@@ -87,5 +89,13 @@ public class UItem {
 
     public void setPopular(boolean popular) {
         isPopular = popular;
+    }
+
+    public UItemDescription getuItemDescription() {
+        return uItemDescription;
+    }
+
+    public void setuItemDescription(UItemDescription uItemDescription) {
+        this.uItemDescription = uItemDescription;
     }
 }

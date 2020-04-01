@@ -9,8 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,7 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,7 +45,7 @@ import static com.mohit.varma.apnimandiadmin.utilities.Constant.ITEM_KEY;
 public class SnacksActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = SnacksActivity.class.getSimpleName();
     private Toolbar SnacksActivityToolbar;
-    private EditText UpdateItemAlertDialogLayoutItemCutOffPriceEditText, UpdateItemAlertDialogLayoutItemPriceEditText;
+    private TextInputEditText UpdateItemAlertDialogLayoutMaterialCutOffPriceEditText, UpdateItemAlertDialogLayoutMaterialPriceEditText;
     private RecyclerView SnacksActivityRecyclerView;
     private TextView SnacksActivityNoItemAddedYetTextView;
     private FloatingActionButton SnacksActivityFab;
@@ -209,10 +209,10 @@ public class SnacksActivity extends AppCompatActivity implements View.OnClickLis
         builder.setCancelable(false);
         alertView = LayoutInflater.from(activity).inflate(R.layout.update_item_aleart_dialog_layout, null, false);
         builder.setView(alertView);
-        UpdateItemAlertDialogLayoutItemCutOffPriceEditText = alertView.findViewById(R.id.UpdateItemAlertDialogLayoutItemCutOffPriceEditText);
-        UpdateItemAlertDialogLayoutItemPriceEditText = alertView.findViewById(R.id.UpdateItemAlertDialogLayoutItemPriceEditText);
-        Button UpdateItemAlertDialogLayoutItemUpdateButton = alertView.findViewById(R.id.UpdateItemAlertDialogLayoutItemUpdateButton);
-        UpdateItemAlertDialogLayoutItemUpdateButton.setOnClickListener(new View.OnClickListener() {
+        UpdateItemAlertDialogLayoutMaterialCutOffPriceEditText = alertView.findViewById(R.id.UpdateItemAlertDialogLayoutMaterialCutOffPriceEditText);
+        UpdateItemAlertDialogLayoutMaterialPriceEditText = alertView.findViewById(R.id.UpdateItemAlertDialogLayoutMaterialPriceEditText);
+        MaterialButton UpdateItemAlertDialogLayoutMaterialUpdateButton = alertView.findViewById(R.id.UpdateItemAlertDialogLayoutMaterialUpdateButton);
+        UpdateItemAlertDialogLayoutMaterialUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -227,8 +227,8 @@ public class SnacksActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void updateItem() {
-        String updatedItemCutOffPrice = UpdateItemAlertDialogLayoutItemCutOffPriceEditText.getText().toString();
-        String updatedItemPrice = UpdateItemAlertDialogLayoutItemPriceEditText.getText().toString();
+        String updatedItemCutOffPrice = UpdateItemAlertDialogLayoutMaterialCutOffPriceEditText.getText().toString();
+        String updatedItemPrice = UpdateItemAlertDialogLayoutMaterialPriceEditText.getText().toString();
         if (IsInternetConnectivity.isConnected(activity)) {
             if (updatedItemCutOffPrice != null && !updatedItemCutOffPrice.isEmpty() && updatedItemPrice != null && !updatedItemPrice.isEmpty()) {
                 dismissUpdateAlertDialog();
@@ -236,7 +236,7 @@ public class SnacksActivity extends AppCompatActivity implements View.OnClickLis
                 if (uItemUpdated != null) {
                     UItem uItem = new UItem(uItemUpdated.getmItemId(), Integer.parseInt(updatedItemCutOffPrice),
                             Integer.parseInt(updatedItemPrice), uItemUpdated.getmItemName(),
-                            uItemUpdated.getmItemImage(), uItemUpdated.getmItemWeight(), uItemUpdated.getmItemCategory(), uItemUpdated.isPopular());
+                            uItemUpdated.getmItemImage(), uItemUpdated.getmItemWeight(), uItemUpdated.getmItemCategory(), uItemUpdated.isPopular(),uItemUpdated.getuItemDescription());
                     if (uItem != null) {
                         databaseReference.child(Constant.ITEMS).child(Constant.SNACKS).orderByChild("mItemId").equalTo(uItem.getmItemId()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override

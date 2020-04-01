@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -68,12 +68,15 @@ public class SnacksAdapter extends RecyclerView.Adapter<SnacksAdapter.SnacksAdap
     public void onBindViewHolder(@NonNull SnacksAdapter.SnacksAdapterViewHolder holder, int position) {
 
         final UItem uItem = uItemList.get(position);
-        holder.ProductCategoryItemIdTextView.setText("Item Id : " + uItem.getmItemId());
-        holder.ProductCategoryItemCutOffPriceTextView.setText("Item Cut Off Price : " + uItem.getmItemCutOffPrice());
-        holder.ProductCategoryItemPriceTextView.setText("Item Price : " + uItem.getmItemPrice());
-        holder.ProductCategoryItemNameTextView.setText("Item Name : " + uItem.getmItemName());
-        holder.ProductCategoryItemWeightTextView.setText("Item weight : " + uItem.getmItemWeight());
-        holder.ProductCategoryItemCategoryTextView.setText("Item Category : " + uItem.getmItemCategory());
+        holder.ProductCategoryItemIdTextView.setText("" + uItem.getmItemId());
+        holder.ProductCategoryItemCutOffPriceTextView.setText("\u20B9" + uItem.getmItemCutOffPrice());
+        holder.ProductCategoryItemPriceTextView.setText("\u20B9" + uItem.getmItemPrice());
+        holder.ProductCategoryItemNameTextView.setText("" + uItem.getmItemName());
+        holder.ProductCategoryItemWeightTextView.setText("" + uItem.getmItemWeight());
+        holder.ProductCategoryItemCategoryTextView.setText("" + uItem.getmItemCategory());
+        holder.ProductCategoryItemCaloriesTextView.setText(""+uItem.getuItemDescription().getItemCalories());
+        holder.ProductCategoryItemFatTextView.setText(""+uItem.getuItemDescription().getItemFat());
+        holder.ProductCategoryItemProteinTextView.setText(""+uItem.getuItemDescription().getItemProtein());
 
         if (uItem.getmItemImage() != null && !uItem.getmItemImage().isEmpty()) {
             setImageToGlide(uItem.getmItemImage(), holder.ProductCategoryItemImageView);
@@ -87,7 +90,7 @@ public class SnacksAdapter extends RecyclerView.Adapter<SnacksAdapter.SnacksAdap
             }
         }
 
-        holder.ProductCategoryItemDeleteButtonView.setOnClickListener(new View.OnClickListener() {
+        holder.ProductCategoryMaterialItemDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (IsInternetConnectivity.isConnected(context)) {
@@ -163,7 +166,7 @@ public class SnacksAdapter extends RecyclerView.Adapter<SnacksAdapter.SnacksAdap
             }
         });
 
-        holder.ProductCategoryItemUpdateButtonView.setOnClickListener(new View.OnClickListener() {
+        holder.ProductCategoryMaterialIItemUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (IsInternetConnectivity.isConnected(context)) {
@@ -210,8 +213,10 @@ public class SnacksAdapter extends RecyclerView.Adapter<SnacksAdapter.SnacksAdap
     public class SnacksAdapterViewHolder extends RecyclerView.ViewHolder {
         private CardView ProductCategoryItemCardView;
         private ImageView ProductCategoryItemImageView;
-        private TextView ProductCategoryItemIdTextView, ProductCategoryItemCutOffPriceTextView, ProductCategoryItemPriceTextView, ProductCategoryItemNameTextView, ProductCategoryItemWeightTextView, ProductCategoryItemCategoryTextView;
-        private Button ProductCategoryItemDeleteButtonView, ProductCategoryItemUpdateButtonView;
+        private TextView ProductCategoryItemIdTextView, ProductCategoryItemCutOffPriceTextView, ProductCategoryItemPriceTextView
+                , ProductCategoryItemNameTextView, ProductCategoryItemWeightTextView, ProductCategoryItemCategoryTextView,
+                ProductCategoryItemCaloriesTextView,ProductCategoryItemFatTextView,ProductCategoryItemProteinTextView;
+        private MaterialButton ProductCategoryMaterialItemDeleteButton,ProductCategoryMaterialIItemUpdateButton;
 
         public SnacksAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -223,8 +228,11 @@ public class SnacksAdapter extends RecyclerView.Adapter<SnacksAdapter.SnacksAdap
             ProductCategoryItemNameTextView = itemView.findViewById(R.id.ProductCategoryItemNameTextView);
             ProductCategoryItemWeightTextView = itemView.findViewById(R.id.ProductCategoryItemWeightTextView);
             ProductCategoryItemCategoryTextView = itemView.findViewById(R.id.ProductCategoryItemCategoryTextView);
-            ProductCategoryItemDeleteButtonView = itemView.findViewById(R.id.ProductCategoryItemDeleteButtonView);
-            ProductCategoryItemUpdateButtonView = itemView.findViewById(R.id.ProductCategoryItemUpdateButtonView);
+            ProductCategoryMaterialItemDeleteButton = itemView.findViewById(R.id.ProductCategoryMaterialItemDeleteButton);
+            ProductCategoryMaterialIItemUpdateButton = itemView.findViewById(R.id.ProductCategoryMaterialIItemUpdateButton);
+            ProductCategoryItemCaloriesTextView = itemView.findViewById(R.id.ProductCategoryItemCaloriesTextView);
+            ProductCategoryItemFatTextView = itemView.findViewById(R.id.ProductCategoryItemFatTextView);
+            ProductCategoryItemProteinTextView = itemView.findViewById(R.id.ProductCategoryItemProteinTextView);
         }
     }
 

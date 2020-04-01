@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/AddItemActivityRootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/_15sdp"
-    android:background="#A569BD"
-    tools:context=".activities.AddItemActivity"
-    android:id="@+id/AddFruitActivityRootView">
+    tools:context=".activities.AddItemActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/AddItemActivityToolbar"
+        style="?actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        app:navigationIcon="@drawable/arrow_left_black_24dp"
+        app:title="@string/add_item"
+        app:titleTextColor="@color/black"></androidx.appcompat.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,90 +26,283 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:background="@color/gray_color"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp">
 
-            <EditText
-                android:id="@+id/AddFruitsActivityItemIdEditText"
+            <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/tools"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/UtilsActivityCardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:maxLength="10"
-                android:inputType="numberDecimal"
-                android:hint="Item Id"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"></EditText>
+                android:background="#e0e0e0"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardElevation="@dimen/_10sdp"
+                app:ignore="NamespaceTypo"
+                card_view:cardCornerRadius="5dp"
+                card_view:cardUseCompatPadding="true"
+                card_view:contentPadding="@dimen/_5sdp">
 
-            <EditText
-                android:id="@+id/AddFruitsActivityItemCutOffPriceEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:inputType="numberDecimal"
-                android:maxLength="4"
-                android:hint="Item Cut Off Price"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"></EditText>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/AddFruitsActivityItemPriceEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="Item Price"
-                android:maxLength="4"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"></EditText>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_5sdp">
 
-            <EditText
-                android:id="@+id/AddFruitsActivityItemNameEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:inputType="text"
-                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                android:hint="Item Name"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"></EditText>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:text="@string/item_details"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12sdp"></TextView>
 
-            <EditText
-                android:id="@+id/AddFruitsActivityItemWeightEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:inputType="text"
-                android:hint="Item Weight"
-                android:maxLength="6"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"></EditText>
+                    </RelativeLayout>
 
-            <EditText
-                android:id="@+id/AddFruitsActivityItemCategoryEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:inputType="text"
-                android:hint="Item Category"
-                android:maxLength="12"
-                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"></EditText>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:hint="@string/item_id"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="10">
 
-            <ImageView
-                android:id="@+id/AddFruitsActivityItemImageView"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_100sdp"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:src="@mipmap/ic_launcher"></ImageView>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/AddItemActivityItemIDEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number">
 
-            <Button
-                android:id="@+id/AddFruitsActivityItemAddButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:text="@string/add"></Button>
+                        </com.google.android.material.textfield.TextInputEditText>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:hint="@string/item_price"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="10">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/AddItemActivityItemPriceEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:hint="@string/item_cutOffPrice"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="10">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/AddItemActivityItemCutOffPriceEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:hint="@string/item_name"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="10">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/AddItemActivityItemNameEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                            android:inputType="text"
+                            android:maxLength="12">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:hint="@string/item_weight"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="10">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/AddItemActivityItemWeightEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="1234567890kgKGgmGM"
+                            android:maxLength="5">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:hint="@string/item_category"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="10">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/AddItemActivityItemCategoryEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                            android:inputType="text"
+                            android:maxLength="12">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:padding="@dimen/_5sdp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:text="@string/item_description_txt"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12sdp"></TextView>
+
+                    </RelativeLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:hint="@string/item_description"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="10">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/AddItemActivityItemDescriptionEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLength="100">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:hint="@string/item_calories"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="10">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/AddItemActivityItemCaloriesEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="1234567890.g"
+                            android:maxLength="12">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:hint="@string/item_fat"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="10">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/AddItemActivityItemFatEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="1234567890.g"
+                            android:maxLength="12">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:hint="@string/item_protein"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="10">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/AddItemActivityItemProteinEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="1234567890.g"
+                            android:maxLength="12">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:id="@+id/AddItemActivityItemImageView"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_100sdp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:src="@mipmap/ic_launcher"></ImageView>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/AddItemActivityAddItemButton"
+                        style="@style/Widget.MaterialComponents.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:insetLeft="4dp"
+                        android:text="@string/add_item">
+
+                    </com.google.android.material.button.MaterialButton>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
