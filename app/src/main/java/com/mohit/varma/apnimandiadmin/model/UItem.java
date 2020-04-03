@@ -1,7 +1,5 @@
 package com.mohit.varma.apnimandiadmin.model;
 
-import java.io.Serializable;
-
 public class UItem {
     private int mItemId;
     private int mItemCutOffPrice;
@@ -13,9 +11,10 @@ public class UItem {
     private boolean isPopular;
     private UItemDescription uItemDescription;
 
-    public UItem() {}
+    public UItem() {
+    }
 
-    public UItem(int mItemId, int mItemCutOffPrice, int mItemPrice, String mItemName, String mItemImage, String mItemWeight, String mItemCategory,boolean isPopular,UItemDescription uItemDescription) {
+    public UItem(int mItemId, int mItemCutOffPrice, int mItemPrice, String mItemName, String mItemImage, String mItemWeight, String mItemCategory, boolean isPopular, UItemDescription uItemDescription) {
         this.mItemId = mItemId;
         this.mItemCutOffPrice = mItemCutOffPrice;
         this.mItemPrice = mItemPrice;

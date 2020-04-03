@@ -85,7 +85,7 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
 
         if (uItemList != null && uItemList.size() > 0) {
             if (uItemList.get(position).isPopular()) {
-                holder.ProductCategoryItemCardView.setCardBackgroundColor(Color.parseColor("#90EE90"));
+                holder.ProductCategoryItemCardView.setCardBackgroundColor(Color.parseColor("#c8f8c8"));
             } else {
                 holder.ProductCategoryItemCardView.setCardBackgroundColor(Color.parseColor("#ffffff"));
             }
@@ -186,7 +186,7 @@ public class FruitItemAdapter extends RecyclerView.Adapter<FruitItemAdapter.Frui
                 if (IsInternetConnectivity.isConnected(context)) {
                     if (!uItemList.get(position).isPopular()) {
                         uItemList.get(position).setPopular(true);
-                        holder.ProductCategoryItemCardView.setCardBackgroundColor(Color.parseColor("#90EE90"));
+                        holder.ProductCategoryItemCardView.setCardBackgroundColor(Color.parseColor("#c8f8c8"));
                         if (uItemList.get(position) != null) {
                             setTrueToItemInPopularInFirebase(position);
                             addItemToMostPopularInFirebaseDatabase(position);
