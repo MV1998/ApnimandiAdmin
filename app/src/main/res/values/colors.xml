@@ -8,4 +8,5 @@
     <color name="color_category_txt_background">#D3FF6D00</color>
     <color name="black">#000000</color>
     <color name="gray_color">#A3BDBDBD</color>
+    <color name="light_grey_color">#F4F4F4</color>
 </resources>

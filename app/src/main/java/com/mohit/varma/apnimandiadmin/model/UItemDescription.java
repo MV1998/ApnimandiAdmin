@@ -1,6 +1,8 @@
 package com.mohit.varma.apnimandiadmin.model;
 
-public class UItemDescription {
+import java.io.Serializable;
+
+public class UItemDescription implements Serializable {
     private String itemDescription;
     private String itemCalories;
     private String itemFat;

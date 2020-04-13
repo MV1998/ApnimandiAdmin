@@ -2,6 +2,7 @@ package com.mohit.varma.apnimandiadmin.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,14 +22,18 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.mohit.varma.apnimandiadmin.R;
 import com.mohit.varma.apnimandiadmin.firebase.MyDatabaseReference;
+import com.mohit.varma.apnimandiadmin.fragments.NewOrderFragment;
+import com.mohit.varma.apnimandiadmin.model.OrderStatus;
 import com.mohit.varma.apnimandiadmin.model.Orders;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
 public class OrdersActivity extends AppCompatActivity {
     private static final String TAG = "OrdersActivity";
     private TextView OrdersActivityNewOrdersTextView,OrdersActivityOngoingOrdersTextView,OrdersActivityPastOrdersTextView;
+    private SwipeRefreshLayout OrdersActivitySwipeFreshLayout;
     private Toolbar OrdersActivityToolBar;
     private DatabaseReference databaseReference;
     private List<Orders> ordersList = new LinkedList<>();
@@ -34,6 +42,9 @@ public class OrdersActivity extends AppCompatActivity {
     private List<Orders> newOrders;
     private ProgressDialog progressDialog;
     private Context context;
+    private Fragment fragment;
+    private FragmentTransaction fragmentTransaction;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +71,23 @@ public class OrdersActivity extends AppCompatActivity {
                         ordersList.add(orders);
                     }
                     if(ordersList != null && ordersList.size()>0){
-                        Log.d(TAG, "onDataChange: " + new Gson().toJson(ordersList));
+                        newOrders = new LinkedList<>();
+                        processingOrders = new LinkedList<>();
+                        cancelledOrders = new LinkedList<>();
+                        for(int i=0;i<ordersList.size();i++){
+                            if(ordersList.get(i).getOrderStatus() == OrderStatus.ORDER_PLACED){
+                                newOrders.add(ordersList.get(i));
+                            }else if(ordersList.get(i).getOrderStatus() == OrderStatus.PROCESSING &&
+                                    ordersList.get(i).getOrderStatus() == OrderStatus.SHIPPED &&
+                                    ordersList.get(i).getOrderStatus() == OrderStatus.DELIVERED){
+                                processingOrders.add(ordersList.get(i));
+                            }else {
+                                cancelledOrders.add(ordersList.get(i));
+                            }
+                        }
+                        Log.d(TAG, "newOrders: " + new Gson().toJson(newOrders));
                         dismissProgressDialog();
+                        initializeOnGoingFragment();
                     }
                 }
             }
@@ -71,7 +97,6 @@ public class OrdersActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     public void initViews() {
@@ -79,7 +104,9 @@ public class OrdersActivity extends AppCompatActivity {
         OrdersActivityNewOrdersTextView = findViewById(R.id.OrdersActivityNewOrdersTextView);
         OrdersActivityOngoingOrdersTextView = findViewById(R.id.OrdersActivityOngoingOrdersTextView);
         OrdersActivityPastOrdersTextView = findViewById(R.id.OrdersActivityPastOrdersTextView);
+        OrdersActivitySwipeFreshLayout = findViewById(R.id.OrdersActivitySwipeFreshLayout);
         this.context = this;
+        this.bundle = new Bundle();
         this.databaseReference = new MyDatabaseReference().getReference();
         this.progressDialog = new ProgressDialog(context);
     }
@@ -110,6 +137,25 @@ public class OrdersActivity extends AppCompatActivity {
             if (progressDialog.isShowing()) {
                 progressDialog.show();
             }
+        }
+    }
+
+    public void initializeOnGoingFragment() {
+        try {
+            OrdersActivityNewOrdersTextView.setTextColor(Color.parseColor("#ee6002"));
+            OrdersActivityOngoingOrdersTextView.setTextColor(Color.parseColor("#000000"));
+            OrdersActivityPastOrdersTextView.setTextColor(Color.parseColor("#000000"));
+        } catch (Exception e) {
+
+        }
+        fragment = null;
+        fragment = new NewOrderFragment();
+        bundle.putSerializable("newOrders", (Serializable) newOrders);
+        fragment.setArguments(bundle);
+        if (fragment != null) {
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.OrdersContainer, fragment, "NewOrderFragment");
+            fragmentTransaction.commitAllowingStateLoss();
         }
     }
 }

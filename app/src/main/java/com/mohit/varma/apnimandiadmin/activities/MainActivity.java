@@ -5,13 +5,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.util.Consumer;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.mohit.varma.apnimandiadmin.R;
+import com.mohit.varma.apnimandiadmin.firebase.MyDatabaseReference;
 import com.mohit.varma.apnimandiadmin.utilities.IsInternetConnectivity;
+import com.mohit.varma.apnimandiadmin.utilities.Session;
 import com.mohit.varma.apnimandiadmin.utilities.ShowSnackBar;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private CardView MainActivityUserCardView, MainActivityProductCategoryCardView, MainActivityOrderCardView,MainActivityUtilsCardView;
     private Toolbar mainActivityToolbar;
     private View MainActivityRootView;
+    private DatabaseReference databaseReference;
+    private Session session;
     private Context activity;
     private Intent intent;
 
@@ -30,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         initViews();
         setClickableAndFocusableToCardViews();
+        setDeliveryChargeToSharedPreference();
 
         //set consumers
         toolbarConsumer.accept(mainActivityToolbar);
@@ -74,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
         MainActivityUtilsCardView = (CardView) findViewById(R.id.MainActivityUtilsCardView);
         MainActivityRootView = findViewById(R.id.MainActivityRootView);
         activity = this;
+        this.session = new Session(activity);
+        this.databaseReference = new MyDatabaseReference().getReference();
     }
 
     public void startUsersActivity() {
@@ -135,5 +147,24 @@ public class MainActivity extends AppCompatActivity {
         MainActivityProductCategoryCardView.setFocusable(true);
         MainActivityOrderCardView.setClickable(true);
         MainActivityOrderCardView.setFocusable(true);
+    }
+
+    public void setDeliveryChargeToSharedPreference(){
+        databaseReference.child("Admin").child("deliveryFee").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if (dataSnapshot.getValue() != null) {
+                        long deliveryFee = (long) dataSnapshot.getValue();
+                        session.setDeliveryCharge(deliveryFee);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

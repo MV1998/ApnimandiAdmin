@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/MyOrdersActivityRootView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.NewOrderItemViewDetailsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/NewOrderItemViewDetailsActivityToolbar"
+        style="?actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
+        app:title="@string/new_order"
+        app:titleTextColor="@color/white">
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_below="@+id/NewOrderItemViewDetailsActivityToolbar"
+        android:id="@+id/NewOrderItemViewDetailsActivityScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/NewOrderItemViewDetailsActivityHorizontalLinearView"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ecf9ff">
+
+                <TextView
+                    android:id="@+id/MyOrderSingleItemOrderNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:text="Order No. 7693489234"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp"></TextView>
+
+                <TextView
+                    android:id="@+id/MyOrderSingleItemPlacedDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:text="Date: 9/9/1998"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp"></TextView>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/MyOrderSingleItemOrderUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ecf9ff"
+                android:paddingLeft="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:text="Mohit Varma"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10sdp"></TextView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_below="@+id/AddToCartActivityBottomRelativeLayoutSubTotalPriceTextView"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:background="@color/black"></View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_10sdp">
+
+                <ImageView
+                    android:id="@+id/MyOrderSingleCustomerPhoneIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/orange_phone_24dp"></ImageView>
+
+                <TextView
+                    android:id="@+id/MyOrderSingleCustomerPhoneNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/MyOrderSingleCustomerPhoneIcon"
+                    android:padding="@dimen/_5sdp"
+                    android:text="+91 8602421385"
+                    android:textSize="@dimen/_12sdp"></TextView>
+
+                <TextView
+                    android:id="@+id/MyOrderSingleItemCustomerCallView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/orange_strock_bg"
+                    android:paddingLeft="@dimen/_20sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingRight="@dimen/_20sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:text="Call"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_9sdp"
+                    android:textStyle="bold"></TextView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_below="@+id/AddToCartActivityBottomRelativeLayoutSubTotalPriceTextView"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:background="@color/gray_color"></View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_10sdp">
+
+                <ImageView
+                    android:id="@+id/MyOrderSingleCustomerEmailIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_email_orange_24dp"></ImageView>
+
+                <TextView
+                    android:id="@+id/MyOrderSingleCustomerEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/MyOrderSingleCustomerEmailIcon"
+                    android:padding="@dimen/_5sdp"
+                    android:text="Order No. 7693489234"
+                    android:textSize="@dimen/_12sdp"></TextView>
+
+                <TextView
+                    android:id="@+id/MyOrderSingleItemCustomerEmailView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/orange_strock_bg"
+                    android:paddingLeft="@dimen/_16sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingRight="@dimen/_16sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:text="Email"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_9sdp"
+                    android:textStyle="bold"></TextView>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_below="@+id/AddToCartActivityBottomRelativeLayoutSubTotalPriceTextView"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:background="@color/gray_color"></View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_10sdp">
+
+                <ImageView
+                    android:id="@+id/MyOrderSingleCustomerNavigationIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_location_on_orange_24dp"></ImageView>
+
+                <TextView
+                    android:id="@+id/MyOrderSingleCustomerNavigation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/MyOrderSingleItemCustomerNavigationView"
+                    android:layout_toRightOf="@+id/MyOrderSingleCustomerNavigationIcon"
+                    android:maxLines="2"
+                    android:padding="@dimen/_5sdp"
+                    android:text="ads;jdkfja;sdfjti;ajdf jasjotueoru asdflajdfkuutie oasdjfkjaslfdouteouwe"
+                    android:textSize="@dimen/_12sdp"></TextView>
+
+                <TextView
+                    android:id="@+id/MyOrderSingleItemCustomerNavigationView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/orange_strock_bg"
+                    android:padding="@dimen/_5sdp"
+                    android:text="Navigation"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_9sdp"
+                    android:textStyle="bold"></TextView>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_below="@+id/AddToCartActivityBottomRelativeLayoutSubTotalPriceTextView"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:background="@color/gray_color"></View>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/light_grey_color"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginStart="4dp"
+                    android:padding="@dimen/_3sdp"
+                    android:gravity="center_vertical"
+                    android:text="Items"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_marginEnd="35dp"
+                    android:padding="@dimen/_3sdp"
+                    android:text="Quantity"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintTop_toTopOf="parent"></TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="10dp"
+                    android:padding="@dimen/_3sdp"
+                    android:gravity="center_vertical"
+                    android:text="Price"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></TextView>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="100dp"
+                    android:orientation="vertical"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintGuide_end="68dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_below="@+id/AddToCartActivityBottomRelativeLayoutSubTotalPriceTextView"
+                android:layout_gravity="center"
+                android:background="@color/gray_color"></View>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/MyOrderSingleItemRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+
+            <include layout="@layout/myorder_summary_single_item_view"></include>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_below="@+id/AddToCartActivityBottomRelativeLayoutSubTotalPriceTextView"
+                android:layout_gravity="center"
+                android:background="@color/gray_color"></View>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/light_grey_color">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_10sdp">
+
+                    <TextView
+                        android:id="@+id/MyOrderSingleItemPrintInvoiceView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/orange_strock_bg"
+                        android:padding="@dimen/_5sdp"
+                        android:text="Print Invoice"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_9sdp"
+                        android:textStyle="bold"></TextView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/MyOrderSingleItemSubtotalView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_3sdp"
+                            android:text="Subtotal : Rs. 123"></TextView>
+
+
+                        <TextView
+                            android:id="@+id/MyOrderSingleItemDeliveryChargeView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_3sdp"
+                            android:text="Delivery Charge : Rs. 123"></TextView>
+
+                        <TextView
+                            android:id="@+id/MyOrderSingleItemServiceTaxView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_3sdp"
+                            android:text="+Service Tax(20%) : Rs. 123"></TextView>
+
+                        <TextView
+                            android:id="@+id/MyOrderSingleItemDiscountView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_3sdp"
+                            android:text="-Discount (20%) : Rs. 123"></TextView>
+
+                        <TextView
+                            android:id="@+id/MyOrderSingleItemGrandTotalView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/_14sdp"
+                            android:padding="@dimen/_3sdp"
+                            android:text="Total : Rs. 123"></TextView>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/NewOrderItemViewDetailsActivityHorizontalLinearView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_below="@+id/AddToCartActivityBottomRelativeLayoutSubTotalPriceTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:background="@color/gray_color"></View>
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/_10sdp">
+
+            <TextView
+                android:id="@+id/MyOrderSingleItemCancelledOrderView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/red_round_bg"
+                android:gravity="center"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:padding="@dimen/_5sdp"
+                android:text="Cancel Order"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_9sdp"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:id="@+id/MyOrderSingleItemAcceptOrderView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_4sdp"
+                android:background="@drawable/green_round_bg"
+                android:gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:text="Accept Order"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_9sdp"
+                android:textStyle="bold"></TextView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
