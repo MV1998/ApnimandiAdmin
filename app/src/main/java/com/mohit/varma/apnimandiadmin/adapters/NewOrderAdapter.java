@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -55,7 +56,7 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.MyOrde
     public void onBindViewHolder(@NonNull MyOrderAdapterViewHolder holder, int position) {
         orders = ordersList.get(position);
         holder.MyOrderSingleItemOrderNumber.setText("Order No - " + orders.getOrderId());
-        holder.MyOrderSingleItemGrandTotal.setText("\u20B9" + orders.getGrandTotal());
+        holder.MyOrderSingleItemGrandTotal.setText("Total: \u20B9" + orders.getGrandTotal());
         if (orders.getUserAddress() != null) {
             holder.MyOrderSingleItemOrderUserName.setText(orders.getUserAddress().getUserName());
         }
@@ -100,6 +101,7 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.MyOrde
                                 item.getRef().setValue(orders).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
+                                        Toast.makeText(context,context.getResources().getString(R.string.order_cancelled), Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
@@ -127,7 +129,7 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.MyOrde
                                 item.getRef().setValue(orders).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-
+                                        Toast.makeText(context,context.getResources().getString(R.string.order_accepted), Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }

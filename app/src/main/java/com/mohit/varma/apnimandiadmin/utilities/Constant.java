@@ -17,6 +17,12 @@ public class Constant {
     public static final String MOST_POPULAR = "MostPopularItems";
     public static final String UITEM_KEY = "uitem";
 
+    public static final String ORDER_PLACED = "Order Placed";
+    public static final String SHIPPED = "Order Shipped";
+    public static final String CANCELLED = "Order Cancelled";
+    public static final String DELIVERED = "Order Delivered";
+    public static final String PROCESSING = "Order Processing";
+
     public static int generateUniqueId() {
         UUID idOne = UUID.randomUUID();
         String str=""+idOne;

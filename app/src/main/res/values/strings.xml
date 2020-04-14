@@ -46,4 +46,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="new_order">New Order</string>
+    <string name="order_status_updated">Order Status Updated.</string>
+    <string name="order_cancelled">Order cancelled successfully.</string>
+    <string name="order_accepted">Order accepted successfully.</string>
+    <string name="ongoing_order">Ongoing Order</string>
 </resources>

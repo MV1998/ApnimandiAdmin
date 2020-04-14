@@ -23,8 +23,12 @@ import com.google.gson.Gson;
 import com.mohit.varma.apnimandiadmin.R;
 import com.mohit.varma.apnimandiadmin.firebase.MyDatabaseReference;
 import com.mohit.varma.apnimandiadmin.fragments.NewOrderFragment;
+import com.mohit.varma.apnimandiadmin.fragments.OngoingOrderFragment;
+import com.mohit.varma.apnimandiadmin.fragments.PastOrderFragment;
 import com.mohit.varma.apnimandiadmin.model.OrderStatus;
 import com.mohit.varma.apnimandiadmin.model.Orders;
+import com.mohit.varma.apnimandiadmin.utilities.IsInternetConnectivity;
+import com.mohit.varma.apnimandiadmin.utilities.ShowSnackBar;
 
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -41,6 +45,7 @@ public class OrdersActivity extends AppCompatActivity {
     private List<Orders> processingOrders;
     private List<Orders> newOrders;
     private ProgressDialog progressDialog;
+    private View MyOrdersActivityRootView;
     private Context context;
     private Fragment fragment;
     private FragmentTransaction fragmentTransaction;
@@ -77,9 +82,8 @@ public class OrdersActivity extends AppCompatActivity {
                         for(int i=0;i<ordersList.size();i++){
                             if(ordersList.get(i).getOrderStatus() == OrderStatus.ORDER_PLACED){
                                 newOrders.add(ordersList.get(i));
-                            }else if(ordersList.get(i).getOrderStatus() == OrderStatus.PROCESSING &&
-                                    ordersList.get(i).getOrderStatus() == OrderStatus.SHIPPED &&
-                                    ordersList.get(i).getOrderStatus() == OrderStatus.DELIVERED){
+                            }else if(ordersList.get(i).getOrderStatus() == OrderStatus.PROCESSING ||
+                                    ordersList.get(i).getOrderStatus() == OrderStatus.SHIPPED){
                                 processingOrders.add(ordersList.get(i));
                             }else {
                                 cancelledOrders.add(ordersList.get(i));
@@ -97,6 +101,8 @@ public class OrdersActivity extends AppCompatActivity {
 
             }
         });
+
+        setListener();
     }
 
     public void initViews() {
@@ -105,6 +111,7 @@ public class OrdersActivity extends AppCompatActivity {
         OrdersActivityOngoingOrdersTextView = findViewById(R.id.OrdersActivityOngoingOrdersTextView);
         OrdersActivityPastOrdersTextView = findViewById(R.id.OrdersActivityPastOrdersTextView);
         OrdersActivitySwipeFreshLayout = findViewById(R.id.OrdersActivitySwipeFreshLayout);
+        MyOrdersActivityRootView = findViewById(R.id.MyOrdersActivityRootView);
         this.context = this;
         this.bundle = new Bundle();
         this.databaseReference = new MyDatabaseReference().getReference();
@@ -154,8 +161,94 @@ public class OrdersActivity extends AppCompatActivity {
         fragment.setArguments(bundle);
         if (fragment != null) {
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.OrdersContainer, fragment, "NewOrderFragment");
+            fragmentTransaction.setCustomAnimations(R.anim.enter,
+                    R.anim.exit);
+            fragmentTransaction.replace(R.id.OrdersContainer, fragment, "newOrders");
             fragmentTransaction.commitAllowingStateLoss();
         }
+    }
+
+    void setListener(){
+        OrdersActivityNewOrdersTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(IsInternetConnectivity.isConnected(context)){
+                    try {
+                        OrdersActivityNewOrdersTextView.setTextColor(Color.parseColor("#ee6002"));
+                        OrdersActivityOngoingOrdersTextView.setTextColor(Color.parseColor("#000000"));
+                        OrdersActivityPastOrdersTextView.setTextColor(Color.parseColor("#000000"));
+                    } catch (Exception e) {
+
+                    }
+                    fragment = null;
+                    fragment = new NewOrderFragment();
+                    bundle.putSerializable("newOrders", (Serializable) newOrders);
+                    fragment.setArguments(bundle);
+                    if (fragment != null) {
+                        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.setCustomAnimations(R.anim.enter,
+                                R.anim.exit);
+                        fragmentTransaction.replace(R.id.OrdersContainer, fragment, "newOrders");
+                        fragmentTransaction.commitAllowingStateLoss();
+                    }
+                }else {
+                    ShowSnackBar.snackBar(context, MyOrdersActivityRootView, context.getResources().getString(R.string.please_check_internet_connectivity));
+                }
+            }
+        });
+        OrdersActivityOngoingOrdersTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(IsInternetConnectivity.isConnected(context)){
+                    try {
+                        OrdersActivityNewOrdersTextView.setTextColor(Color.parseColor("#000000"));
+                        OrdersActivityOngoingOrdersTextView.setTextColor(Color.parseColor("#ee6002"));
+                        OrdersActivityPastOrdersTextView.setTextColor(Color.parseColor("#000000"));
+                    } catch (Exception e) {
+
+                    }
+                    fragment = null;
+                    fragment = new OngoingOrderFragment();
+                    bundle.putSerializable("onGoingOrder", (Serializable) processingOrders);
+                    fragment.setArguments(bundle);
+                    if (fragment != null) {
+                        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.setCustomAnimations(R.anim.enter,
+                                R.anim.exit);
+                        fragmentTransaction.replace(R.id.OrdersContainer, fragment, "onGoingOrder");
+                        fragmentTransaction.commitAllowingStateLoss();
+                    }
+                }else {
+                    ShowSnackBar.snackBar(context, MyOrdersActivityRootView, context.getResources().getString(R.string.please_check_internet_connectivity));
+                }
+            }
+        });
+        OrdersActivityPastOrdersTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(IsInternetConnectivity.isConnected(context)){
+                    try {
+                        OrdersActivityNewOrdersTextView.setTextColor(Color.parseColor("#000000"));
+                        OrdersActivityOngoingOrdersTextView.setTextColor(Color.parseColor("#000000"));
+                        OrdersActivityPastOrdersTextView.setTextColor(Color.parseColor("#ee6002"));
+                    } catch (Exception e) {
+
+                    }
+                    fragment = null;
+                    fragment = new PastOrderFragment();
+                    bundle.putSerializable("pastOrder", (Serializable) cancelledOrders);
+                    fragment.setArguments(bundle);
+                    if (fragment != null) {
+                        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.setCustomAnimations(R.anim.enter,
+                                R.anim.exit);
+                        fragmentTransaction.replace(R.id.OrdersContainer, fragment, "pastOrder");
+                        fragmentTransaction.commitAllowingStateLoss();
+                    }
+                }else {
+                    ShowSnackBar.snackBar(context, MyOrdersActivityRootView, context.getResources().getString(R.string.please_check_internet_connectivity));
+                }
+            }
+        });
     }
 }
