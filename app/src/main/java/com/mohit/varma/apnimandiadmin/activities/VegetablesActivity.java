@@ -91,45 +91,51 @@ public class VegetablesActivity extends AppCompatActivity {
             }
         });
 
-        databaseReference.child(ITEMS).child(category).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                try {
-                    uItemList.clear();
-                    if (dataSnapshot.exists() && dataSnapshot.hasChildren()) {
-                        for (DataSnapshot Items : dataSnapshot.getChildren()) {
-                            UItem uItem = Items.getValue(UItem.class);
-                            uItemList.add(uItem);
-                        }
-                        Log.d(TAG, "onDataChange: " + new Gson().toJson(uItemList));
-                        if (uItemList != null && uItemList.size() > 0) {
-                            if (adapter != null) {
-                                dismissProgressDialog();
-                                VegetablesActivityRecyclerView.setVisibility(View.VISIBLE);
-                                VegetablesActivityNoItemAddedYetTextView.setVisibility(View.GONE);
-                                adapter.notifyDataSetChanged();
-                            } else {
-                                dismissProgressDialog();
-                                VegetablesActivityRecyclerView.setVisibility(View.VISIBLE);
-                                VegetablesActivityNoItemAddedYetTextView.setVisibility(View.GONE);
-                                setAdapter();
+        try {
+            databaseReference.child(ITEMS).child(category).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    try {
+                        uItemList.clear();
+                        if (dataSnapshot.exists() && dataSnapshot.hasChildren()) {
+                            for (DataSnapshot Items : dataSnapshot.getChildren()) {
+                                UItem uItem = Items.getValue(UItem.class);
+                                uItemList.add(uItem);
                             }
+                            Log.d(TAG, "onDataChange: " + new Gson().toJson(uItemList));
+                            if (uItemList != null && uItemList.size() > 0) {
+                                if (adapter != null) {
+                                    dismissProgressDialog();
+                                    VegetablesActivityRecyclerView.setVisibility(View.VISIBLE);
+                                    VegetablesActivityNoItemAddedYetTextView.setVisibility(View.GONE);
+                                    adapter.notifyDataSetChanged();
+                                } else {
+                                    dismissProgressDialog();
+                                    VegetablesActivityRecyclerView.setVisibility(View.VISIBLE);
+                                    VegetablesActivityNoItemAddedYetTextView.setVisibility(View.GONE);
+                                    dismissProgressDialog();
+                                    setAdapter();
+                                }
+                            }
+                        } else {
+                            VegetablesActivityRecyclerView.setVisibility(View.GONE);
+                            VegetablesActivityNoItemAddedYetTextView.setVisibility(View.VISIBLE);
+                            dismissProgressDialog();
                         }
-                    } else {
-                        VegetablesActivityRecyclerView.setVisibility(View.GONE);
-                        VegetablesActivityNoItemAddedYetTextView.setVisibility(View.VISIBLE);
-                        dismissProgressDialog();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     public void initViews() {

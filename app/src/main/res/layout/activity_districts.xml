@@ -2,54 +2,42 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/DistrictActivityRootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.FruitsActivity"
-    android:id="@+id/FruitsActivityRootView">
+    tools:context=".activities.DistrictsActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/AddFruitsActivityToolbar"
+        android:id="@+id/DistrictActivityToolbar"
         style="?actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         app:navigationIcon="@drawable/arrow_left_black_24dp"
-        app:title="@string/fruits"
+        app:title="@string/districts"
         app:titleTextColor="@color/black"></androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/AddFruitsActivityRecyclerView"
+        android:id="@+id/DistrictActivityRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/AddFruitsActivityToolbar"
+        android:layout_below="@id/DistrictActivityToolbar"
         android:background="@color/gray_color"
+        android:padding="@dimen/_5sdp"
         android:visibility="visible">
 
     </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
-        android:id="@+id/FruitsActivityNoItemAddedYetTextView"
-        android:visibility="gone"
+        android:id="@+id/DistrictActivityNoItemAddedYetTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="@string/No_item_added_yet"
+        android:textColor="@color/black"
         android:textSize="@dimen/_18sdp"
-        android:textColor="@color/black"></TextView>
+        android:visibility="gone"></TextView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/AddFruitsActivityFab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="@dimen/_20sdp"
-        android:layout_marginBottom="@dimen/_20sdp"
-        android:src="@drawable/ic_add_circle_black_24dp"
-        app:elevation="6dp"
-        app:pressedTranslationZ="12dp">
-
-    </com.google.android.material.floatingactionbutton.FloatingActionButton>
 </RelativeLayout>

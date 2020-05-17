@@ -183,12 +183,12 @@ public class NewOrderItemViewDetailsActivity extends AppCompatActivity {
         MyOrderSingleItemSubtotalView.setText("Subtotal : \u20B9" + subTotal);
         MyOrderSingleItemGrandTotalView.setText("Grand Total : \u20B9" + grandTotal);
         try {
-            if(orders.getuCartList()!=null && orders.getuCartList().size()>0){
-                long discount = (((orders.getuCartList().get(0).getmItemCutOffPrice()) * grandTotal))/100;
-                MyOrderSingleItemDiscountView.setText("-Discount "+"("+orders.getuCartList().get(0).getmItemCutOffPrice()+"%) : \u20B9"+discount);
-            }else {
-                long discount = (((orders.getuItem().getmItemCutOffPrice()) * grandTotal))/100;
-                MyOrderSingleItemDiscountView.setText("-Discount "+"("+orders.getuItem().getmItemCutOffPrice()+"%) : \u20B9"+discount);
+            if (orders.getuCartList() != null && orders.getuCartList().size() > 0) {
+                long discount = (((orders.getuCartList().get(0).getmItemCutOffPrice()) * grandTotal)) / 100;
+                MyOrderSingleItemDiscountView.setText("-Discount " + "(" + orders.getuCartList().get(0).getmItemCutOffPrice() + "%) : \u20B9" + discount);
+            } else {
+                long discount = (((orders.getuItem().getmItemCutOffPrice()) * grandTotal)) / 100;
+                MyOrderSingleItemDiscountView.setText("-Discount " + "(" + orders.getuItem().getmItemCutOffPrice() + "%) : \u20B9" + discount);
             }
         } catch (Exception e) {
 

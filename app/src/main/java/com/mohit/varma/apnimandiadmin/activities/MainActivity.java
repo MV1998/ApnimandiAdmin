@@ -24,7 +24,8 @@ import com.mohit.varma.apnimandiadmin.utilities.ShowSnackBar;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
-    private CardView MainActivityUserCardView, MainActivityProductCategoryCardView, MainActivityOrderCardView,MainActivityUtilsCardView;
+    private CardView MainActivityUserCardView, MainActivityProductCategoryCardView, MainActivityOrderCardView,MainActivityUtilsCardView,
+            MainActivityStateDetailsCardView;
     private Toolbar mainActivityToolbar;
     private View MainActivityRootView;
     private DatabaseReference databaseReference;
@@ -73,6 +74,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        MainActivityStateDetailsCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startStateDetailsActivity();
+            }
+        });
     }
 
 
@@ -82,7 +89,9 @@ public class MainActivity extends AppCompatActivity {
         MainActivityProductCategoryCardView = findViewById(R.id.MainActivityProductCategoryCardView);
         MainActivityOrderCardView = findViewById(R.id.MainActivityOrderCardView);
         MainActivityUtilsCardView = (CardView) findViewById(R.id.MainActivityUtilsCardView);
+        MainActivityStateDetailsCardView = (CardView) findViewById(R.id.MainActivityStateDetailsCardView);
         MainActivityRootView = findViewById(R.id.MainActivityRootView);
+
         activity = this;
         this.session = new Session(activity);
         this.databaseReference = new MyDatabaseReference().getReference();
@@ -114,6 +123,17 @@ public class MainActivity extends AppCompatActivity {
         if (activity != null) {
             if(IsInternetConnectivity.isConnected(activity)) {
                 intent = new Intent(activity, OrdersActivity.class);
+                startActivity(intent);
+            }else {
+                ShowSnackBar.snackBar(activity,MainActivityRootView,activity.getResources().getString(R.string.please_check_internet_connectivity));
+            }
+        }
+    }
+
+    public void startStateDetailsActivity(){
+        if (activity != null) {
+            if(IsInternetConnectivity.isConnected(activity)) {
+                intent = new Intent(activity, StateDetailsActivity.class);
                 startActivity(intent);
             }else {
                 ShowSnackBar.snackBar(activity,MainActivityRootView,activity.getResources().getString(R.string.please_check_internet_connectivity));

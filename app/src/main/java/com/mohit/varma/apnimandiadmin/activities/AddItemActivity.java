@@ -62,7 +62,7 @@ public class AddItemActivity extends AppCompatActivity {
     private MyDatabaseReference myDatabaseReference;
     private String imageURI = null, itemId, itemCutOffPrice, itemPrice, itemName, itemWeight, itemCategory, imageName = " ",
             itemDescription, itemCalories, itemFat, itemProtein,category;
-
+    private UItem uItem = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,31 +163,35 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     public void addItemToDatabase() {
-        UItem item = new UItem(Integer.parseInt(itemId),
-                Integer.parseInt(itemCutOffPrice),
-                Integer.parseInt(itemPrice),
-                itemName,
-                imageURI,
-                itemWeight,
-                itemCategory,
-                false,new UItemDescription(itemDescription,itemCalories,itemFat,itemProtein));
-        if (item != null) {
-            Log.d(TAG, "addItemToDatabase: " + new Gson().toJson(item));
-            myDatabaseReference.getReference().child(ITEMS).child(category)
-                    .push()
-                    .setValue(item).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    dismissProgressDialog();
-                    onBackPressed();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG, "onFailure: ");
-                }
-            });
+        UItemDescription uItemDescription = new UItemDescription(itemDescription,itemCalories,itemFat,itemProtein);
+        if(uItemDescription!=null){
+            uItem = new UItem(Integer.parseInt(itemId),
+                    Integer.parseInt(itemCutOffPrice),
+                    Integer.parseInt(itemPrice),
+                    itemName,
+                    imageURI,
+                    itemWeight,
+                    itemCategory,
+                    false,uItemDescription);
+            if (uItem != null) {
+                Log.d(TAG, "addItemToDatabase: " + new Gson().toJson(uItem));
+                myDatabaseReference.getReference().child(ITEMS).child(category)
+                        .push()
+                        .setValue(uItem).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        dismissProgressDialog();
+                        onBackPressed();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: ");
+                    }
+                });
+            }
         }
+
     }
 
     @Override

@@ -50,4 +50,20 @@
     <string name="order_cancelled">Order cancelled successfully.</string>
     <string name="order_accepted">Order accepted successfully.</string>
     <string name="ongoing_order">Ongoing Order</string>
+    <string name="States">States</string>
+    <string name="state_details">State Details</string>
+    <string name="state_name">State Name</string>
+    <string name="state_code">State Code</string>
+    <string name="state_Abbreviation">State Abbreviation</string>
+    <string name="delete_state">Delete State</string>
+    <string name="add_district">Add District</string>
+    <string name="district_details">District details</string>
+    <string name="district_name">District Name</string>
+    <string name="district_pin_code">District Pin Code</string>
+    <string name="district_abbreviation">District Abbreviation</string>
+    <string name="delete_district">Delete District</string>
+    <string name="add_ward">Add Ward</string>
+    <string name="districts">Districts</string>
+    <string name="state_code_already_used">State already exists.</string>
+    <string name="district_already_exists">District Already Exist.</string>
 </resources>

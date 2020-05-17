@@ -5,31 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.FruitsActivity"
-    android:id="@+id/FruitsActivityRootView">
+    tools:context=".activities.StateDetailsActivity"
+    android:id="@+id/StateDetailsActivityRootView">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/AddFruitsActivityToolbar"
+        android:id="@+id/StateDetailsActivityToolbar"
         style="?actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         app:navigationIcon="@drawable/arrow_left_black_24dp"
-        app:title="@string/fruits"
+        app:title="@string/States"
         app:titleTextColor="@color/black"></androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/AddFruitsActivityRecyclerView"
+        android:id="@+id/StateDetailsActivityRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/AddFruitsActivityToolbar"
+        android:padding="@dimen/_5sdp"
+        android:layout_below="@id/StateDetailsActivityToolbar"
         android:background="@color/gray_color"
         android:visibility="visible">
 
     </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
-        android:id="@+id/FruitsActivityNoItemAddedYetTextView"
+        android:id="@+id/StateDetailsActivityNoItemAddedYetTextView"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,7 +41,7 @@
         android:textColor="@color/black"></TextView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/AddFruitsActivityFab"
+        android:id="@+id/StateDetailsActivityFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -49,6 +50,8 @@
         android:layout_marginBottom="@dimen/_20sdp"
         android:src="@drawable/ic_add_circle_black_24dp"
         app:elevation="6dp"
+        app:backgroundTint="@color/colorPrimary"
+        android:tint="@color/white"
         app:pressedTranslationZ="12dp">
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>

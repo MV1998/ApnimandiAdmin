@@ -68,16 +68,20 @@ public class VegetableItemAdapter extends RecyclerView.Adapter<VegetableItemAdap
     @Override
     public void onBindViewHolder(@NonNull VegetableItemAdapterViewHolder holder, int position) {
 
-        final UItem uItem = uItemList.get(position);
-        holder.ProductCategoryItemIdTextView.setText("" + uItem.getmItemId());
-        holder.ProductCategoryItemCutOffPriceTextView.setText("\u20B9" + uItem.getmItemCutOffPrice());
-        holder.ProductCategoryItemPriceTextView.setText("\u20B9" + uItem.getmItemPrice());
-        holder.ProductCategoryItemNameTextView.setText("" + uItem.getmItemName());
-        holder.ProductCategoryItemWeightTextView.setText("" + uItem.getmItemWeight());
-        holder.ProductCategoryItemCategoryTextView.setText("" + uItem.getmItemCategory());
-        holder.ProductCategoryItemCaloriesTextView.setText(""+uItem.getuItemDescription().getItemCalories());
-        holder.ProductCategoryItemFatTextView.setText(""+uItem.getuItemDescription().getItemFat());
-        holder.ProductCategoryItemProteinTextView.setText(""+uItem.getuItemDescription().getItemProtein());
+         UItem uItem = uItemList.get(position);
+        try {
+            holder.ProductCategoryItemIdTextView.setText("" + uItem.getmItemId());
+            holder.ProductCategoryItemCutOffPriceTextView.setText("\u20B9" + uItem.getmItemCutOffPrice());
+            holder.ProductCategoryItemPriceTextView.setText("\u20B9" + uItem.getmItemPrice());
+            holder.ProductCategoryItemNameTextView.setText("" + uItem.getmItemName());
+            holder.ProductCategoryItemWeightTextView.setText("" + uItem.getmItemWeight());
+            holder.ProductCategoryItemCategoryTextView.setText("" + uItem.getmItemCategory());
+            holder.ProductCategoryItemCaloriesTextView.setText(""+uItem.getuItemDescription().getItemCalories());
+            holder.ProductCategoryItemFatTextView.setText(""+uItem.getuItemDescription().getItemFat());
+            holder.ProductCategoryItemProteinTextView.setText(""+uItem.getuItemDescription().getItemProtein());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         if (uItem.getmItemImage() != null && !uItem.getmItemImage().isEmpty()) {
             setImageToGlide(uItem.getmItemImage(), holder.ProductCategoryItemImageView);
