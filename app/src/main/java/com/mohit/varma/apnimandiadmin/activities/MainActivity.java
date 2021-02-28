@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.mohit.varma.apnimandiadmin.R;
+import com.mohit.varma.apnimandiadmin.activities.orderbyImage.OrdersByImageActivity;
 import com.mohit.varma.apnimandiadmin.firebase.MyDatabaseReference;
 import com.mohit.varma.apnimandiadmin.utilities.IsInternetConnectivity;
 import com.mohit.varma.apnimandiadmin.utilities.Session;
@@ -24,7 +25,8 @@ import com.mohit.varma.apnimandiadmin.utilities.ShowSnackBar;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
-    private CardView MainActivityUserCardView, MainActivityProductCategoryCardView, MainActivityOrderCardView,MainActivityUtilsCardView;
+    private CardView MainActivityUserCardView, MainActivityProductCategoryCardView, MainActivityOrderCardView,MainActivityUtilsCardView,
+            MainActivityOrderByImageCardView;
     private Toolbar mainActivityToolbar;
     private View MainActivityRootView;
     private DatabaseReference databaseReference;
@@ -73,6 +75,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        MainActivityOrderByImageCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startOrderByImageActivity();
+            }
+        });
+
     }
 
 
@@ -83,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         MainActivityOrderCardView = findViewById(R.id.MainActivityOrderCardView);
         MainActivityUtilsCardView = (CardView) findViewById(R.id.MainActivityUtilsCardView);
         MainActivityRootView = findViewById(R.id.MainActivityRootView);
+        MainActivityOrderByImageCardView = findViewById(R.id.MainActivityOrderByImageCardView);
         activity = this;
         this.session = new Session(activity);
         this.databaseReference = new MyDatabaseReference().getReference();
@@ -140,6 +150,19 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    public void startOrderByImageActivity(){
+        if(activity != null){
+            if(IsInternetConnectivity.isConnected(activity)){
+                if(IsInternetConnectivity.isConnected(activity)) {
+                    intent = new Intent(activity, OrdersByImageActivity.class);
+                    startActivity(intent);
+                }else {
+                    ShowSnackBar.snackBar(activity,MainActivityRootView,activity.getResources().getString(R.string.please_check_internet_connectivity));
+                }
+            }
+        }
+    }
+
     public void setClickableAndFocusableToCardViews(){
         MainActivityUserCardView.setClickable(true);
         MainActivityUserCardView.setFocusable(true);
@@ -147,6 +170,8 @@ public class MainActivity extends AppCompatActivity {
         MainActivityProductCategoryCardView.setFocusable(true);
         MainActivityOrderCardView.setClickable(true);
         MainActivityOrderCardView.setFocusable(true);
+        MainActivityOrderByImageCardView.setClickable(true);
+        MainActivityOrderByImageCardView.setFocusable(true);
     }
 
     public void setDeliveryChargeToSharedPreference(){
@@ -156,6 +181,13 @@ public class MainActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     if (dataSnapshot.getValue() != null) {
                         long deliveryFee = (long) dataSnapshot.getValue();
+//                        if(deliveryFee == 50){
+//                            Toast.makeText(activity, "Access Allowed", Toast.LENGTH_SHORT).show();
+//                        }else{
+//                            Intent intent = new Intent(MainActivity.this, AppClose.class);
+//                            startActivity(intent);
+//                            finish();
+//                        }
                         session.setDeliveryCharge(deliveryFee);
                     }
                 }
@@ -167,4 +199,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

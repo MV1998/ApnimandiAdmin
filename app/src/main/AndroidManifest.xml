@@ -18,8 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.PastOrderItemViewActivity"></activity>
-        <activity android:name=".activities.OngoingItemViewDetailsActivity"></activity>
+        <activity android:name=".activities.orderbyImage.OrderByImageUserOrdersActivity"></activity>
+        <activity android:name=".activities.orderbyImage.OrdersByImageActivity" />
+        <activity android:name=".activities.AppClose" />
+        <activity android:name=".activities.AttaActivity" />
+        <activity android:name=".activities.PastOrderItemViewActivity" />
+        <activity android:name=".activities.OngoingItemViewDetailsActivity" />
         <activity android:name=".activities.NewOrderItemViewDetailsActivity" />
         <activity android:name=".activities.UtilsActivity" />
         <activity android:name=".activities.BackingsActivity" />

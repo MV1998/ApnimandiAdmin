@@ -21,6 +21,7 @@
     <string name="snacks">Snacks</string>
     <string name="protein">Protein</string>
     <string name="backing">Backing</string>
+    <string name="atta">Atta</string>
     <string name="item_removed_from_most_popular_section">Item successfully removed from most popular section.</string>
     <string name="Utils">Utils</string>
     <string name="delivery_fee">Delivery Fee</string>
@@ -50,4 +51,6 @@
     <string name="order_cancelled">Order cancelled successfully.</string>
     <string name="order_accepted">Order accepted successfully.</string>
     <string name="ongoing_order">Ongoing Order</string>
+    <string name="OrderByImage">Order By Image</string>
+    <string name="order_by_image_txt">Orders By Image</string>
 </resources>

@@ -15,118 +15,153 @@
         app:title="@string/admin"
         app:titleTextColor="@color/black"></androidx.appcompat.widget.Toolbar>
 
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:orientation="vertical"
-       android:layout_below="@id/mainActivityToolbar"
-       android:padding="@dimen/_10sdp"
-       android:background="@color/gray_color">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-       <androidx.cardview.widget.CardView
-           android:id="@+id/MainActivityUserCardView"
-           xmlns:android="http://schemas.android.com/apk/res/android"
-           xmlns:card_view="http://schemas.android.com/apk/res-auto"
-           android:foreground="?android:attr/selectableItemBackground"
-           android:background="#e0e0e0"
-           android:clickable="true"
-           android:layout_width="match_parent"
-           android:layout_height="@dimen/_100sdp"
-           android:focusable="true"
-           card_view:cardCornerRadius="5dp"
-           card_view:cardUseCompatPadding="true"
-           app:cardElevation="@dimen/_3sdp">
 
-           <TextView
-               android:id="@+id/MainActivityUserTextView"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="@string/user"
-               android:textColor="@color/black"
-               android:textSize="@dimen/_24sdp"
-               android:layout_gravity="center"
-               android:textStyle="bold"></TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_below="@id/mainActivityToolbar"
+            android:padding="@dimen/_10sdp"
+            android:background="@color/gray_color">
 
-       </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/MainActivityUserCardView"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:background="#e0e0e0"
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:focusable="true"
+                card_view:cardCornerRadius="5dp"
+                card_view:cardUseCompatPadding="true"
+                app:cardElevation="@dimen/_3sdp">
 
-       <androidx.cardview.widget.CardView
-           android:id="@+id/MainActivityProductCategoryCardView"
-           xmlns:android="http://schemas.android.com/apk/res/android"
-           xmlns:card_view="http://schemas.android.com/apk/res-auto"
-           android:foreground="?android:attr/selectableItemBackground"
-           android:layout_width="match_parent"
-           android:layout_height="@dimen/_100sdp"
-           android:clickable="true"
-           android:focusable="true"
-           card_view:cardCornerRadius="5dp"
-           card_view:cardUseCompatPadding="true"
-           app:cardElevation="@dimen/_3sdp"
-           android:layout_marginTop="@dimen/_10sdp">
+                <TextView
+                    android:id="@+id/MainActivityUserTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_24sdp"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"></TextView>
 
-           <TextView
-               android:id="@+id/MainActivityProductCategoryTextView"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="@string/product_category"
-               android:textColor="@color/black"
-               android:textSize="@dimen/_24sdp"
-               android:layout_gravity="center"
-               android:textStyle="bold"></TextView>
+            </androidx.cardview.widget.CardView>
 
-       </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/MainActivityProductCategoryCardView"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:clickable="true"
+                android:focusable="true"
+                card_view:cardCornerRadius="5dp"
+                card_view:cardUseCompatPadding="true"
+                app:cardElevation="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_10sdp">
 
-       <androidx.cardview.widget.CardView
-           android:id="@+id/MainActivityOrderCardView"
-           xmlns:android="http://schemas.android.com/apk/res/android"
-           xmlns:card_view="http://schemas.android.com/apk/res-auto"
-           android:foreground="?android:attr/selectableItemBackground"
-           android:layout_width="match_parent"
-           android:layout_height="@dimen/_100sdp"
-           android:clickable="true"
-           android:focusable="true"
-           card_view:cardCornerRadius="5dp"
-           card_view:cardUseCompatPadding="true"
-           app:cardElevation="@dimen/_3sdp"
-           android:layout_marginTop="@dimen/_10sdp">
+                <TextView
+                    android:id="@+id/MainActivityProductCategoryTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/product_category"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_24sdp"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"></TextView>
 
-           <TextView
-               android:id="@+id/MainActivityOrderTextView"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="@string/orders"
-               android:textColor="@color/black"
-               android:textSize="@dimen/_24sdp"
-               android:layout_gravity="center"
-               android:textStyle="bold"></TextView>
+            </androidx.cardview.widget.CardView>
 
-       </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/MainActivityOrderCardView"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:clickable="true"
+                android:focusable="true"
+                card_view:cardCornerRadius="5dp"
+                card_view:cardUseCompatPadding="true"
+                app:cardElevation="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_10sdp">
 
-       <androidx.cardview.widget.CardView
-           android:id="@+id/MainActivityUtilsCardView"
-           xmlns:android="http://schemas.android.com/apk/res/android"
-           xmlns:card_view="http://schemas.android.com/apk/res-auto"
-           android:foreground="?android:attr/selectableItemBackground"
-           android:layout_width="match_parent"
-           android:layout_height="@dimen/_100sdp"
-           android:clickable="true"
-           android:focusable="true"
-           card_view:cardCornerRadius="5dp"
-           card_view:cardUseCompatPadding="true"
-           app:cardElevation="@dimen/_3sdp"
-           android:layout_marginTop="@dimen/_10sdp">
+                <TextView
+                    android:id="@+id/MainActivityOrderTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/orders"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_24sdp"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"></TextView>
 
-           <TextView
-               android:id="@+id/MainActivityUtilsTextView"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="@string/Utils"
-               android:textColor="@color/black"
-               android:textSize="@dimen/_24sdp"
-               android:layout_gravity="center"
-               android:textStyle="bold"></TextView>
+            </androidx.cardview.widget.CardView>
 
-       </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/MainActivityUtilsCardView"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:clickable="true"
+                android:focusable="true"
+                card_view:cardCornerRadius="5dp"
+                card_view:cardUseCompatPadding="true"
+                app:cardElevation="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_10sdp">
 
-   </LinearLayout>
+                <TextView
+                    android:id="@+id/MainActivityUtilsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Utils"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_24sdp"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"></TextView>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/MainActivityOrderByImageCardView"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:clickable="true"
+                android:focusable="true"
+                card_view:cardCornerRadius="5dp"
+                card_view:cardUseCompatPadding="true"
+                app:cardElevation="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/MainActivityOrderByImageTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/order_by_image_txt"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_24sdp"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"></TextView>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+
+    </ScrollView>
 
 </RelativeLayout>

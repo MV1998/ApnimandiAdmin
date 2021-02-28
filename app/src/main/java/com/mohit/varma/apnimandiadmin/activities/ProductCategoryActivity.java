@@ -15,6 +15,7 @@ import com.mohit.varma.apnimandiadmin.utilities.ShowSnackBar;
 
 import java.util.Objects;
 
+import static com.mohit.varma.apnimandiadmin.utilities.Constant.ATTA;
 import static com.mohit.varma.apnimandiadmin.utilities.Constant.BACKING;
 import static com.mohit.varma.apnimandiadmin.utilities.Constant.FRUIT;
 import static com.mohit.varma.apnimandiadmin.utilities.Constant.ITEM_KEY;
@@ -26,7 +27,9 @@ public class ProductCategoryActivity extends AppCompatActivity implements View.O
     public static final String TAG = ProductCategoryActivity.class.getSimpleName();
     private Toolbar productCategoryActivityToolbar;
     private Context activity;
-    private CardView ProductCategoryActivityFruitsCardView, ProductCategoryActivityVegetablesCardView, ProductCategoryActivitySnacksCardView, ProductCategoryActivityProteinCardView, ProductCategoryActivityBackingCardView;
+    private CardView ProductCategoryActivityFruitsCardView, ProductCategoryActivityVegetablesCardView
+            , ProductCategoryActivitySnacksCardView, ProductCategoryActivityProteinCardView
+            , ProductCategoryActivityBackingCardView, ProductCategoryActivityAttaCardView;
     private Intent intent;
     private View ProductCategoryActivityRootView;
 
@@ -59,6 +62,7 @@ public class ProductCategoryActivity extends AppCompatActivity implements View.O
         ProductCategoryActivityProteinCardView = findViewById(R.id.ProductCategoryActivityProteinCardView);
         ProductCategoryActivityBackingCardView = findViewById(R.id.ProductCategoryActivityBackingCardView);
         ProductCategoryActivityRootView = findViewById(R.id.ProductCategoryActivityRootView);
+        ProductCategoryActivityAttaCardView = findViewById(R.id.ProductCategoryActivityAttaCardView);
         this.activity = this;
     }
 
@@ -71,6 +75,7 @@ public class ProductCategoryActivity extends AppCompatActivity implements View.O
         ProductCategoryActivitySnacksCardView.setOnClickListener(this);
         ProductCategoryActivityProteinCardView.setOnClickListener(this);
         ProductCategoryActivityBackingCardView.setOnClickListener(this);
+        ProductCategoryActivityAttaCardView.setOnClickListener(this);
     }
 
     /**
@@ -150,6 +155,16 @@ public class ProductCategoryActivity extends AppCompatActivity implements View.O
         }
     }
 
+    public void startAddAttaActivity(Context activity) {
+        if (IsInternetConnectivity.isConnected(activity)) {
+            intent = new Intent(activity, AttaActivity.class);
+            intent.putExtra(ITEM_KEY, ATTA);
+            activity.startActivity(intent);
+        } else {
+            ShowSnackBar.snackBar(activity, ProductCategoryActivityRootView, activity.getResources().getString(R.string.please_check_internet_connectivity));
+        }
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -176,6 +191,9 @@ public class ProductCategoryActivity extends AppCompatActivity implements View.O
                 break;
             case R.id.ProductCategoryActivityBackingCardView:
                 startAddBackingActivity(activity);
+                break;
+            case R.id.ProductCategoryActivityAttaCardView:
+                startAddAttaActivity(activity);
                 break;
         }
     }

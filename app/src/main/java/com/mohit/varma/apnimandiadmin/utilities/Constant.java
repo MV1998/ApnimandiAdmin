@@ -17,6 +17,15 @@ public class Constant {
     public static final String MOST_POPULAR = "MostPopularItems";
     public static final String UITEM_KEY = "uitem";
 
+    public static final String ATTA = "Atta";
+
+    private static final String SALT_SUGAR = "Salt And Sugar";
+    private static final String NOODLES_PASTA = "Noodles and Pasta";
+    private static final String SOAP = "Soap";
+    private static final String TEA_COFFEE = "Tea and Coffee";
+    private static final String DETERGENT_POWDERS = "Detergent Powders";
+
+
     public static final String ORDER_PLACED = "Order Placed";
     public static final String SHIPPED = "Order Shipped";
     public static final String CANCELLED = "Order Cancelled";
